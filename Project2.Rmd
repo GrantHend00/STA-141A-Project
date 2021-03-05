@@ -30,6 +30,17 @@ Reproducibility:
 - The source file  (e.g., RMD file)  is well-documented with reproducibility in mind. For instance, a readme document is included to offer instructions for using these files, codes are well-commented, the files are well-structured, the script/file are tested in various systems, etc.
 
 # Introduction
+The effects of the COVID-19 pandemic on mental health have become an increasingly recognized issue in public discourse, yet mental health science perspectives remain relatively overlooked in the construction of research priorities and policy agendas related to recovery from the COVID-19 pandemic. Researchers recognize that the psychological and social effects of the COVID-19 pandemic on mental health are pervasive [(Holmes & O’Connor et al., 2020, p. 547)](https://doi.org/10.1016/S2215-0366(20)30168-1) and that, without the support of government programs and policy, individuals are at risk of bearing a “psychological scar” [(Clemente-Suárez et al, 2020, p. 4)](doi: 10.3389/fpsyg.2020.580225) long after the pandemic ends. Therefore, coordination between governments and global research platforms is necessary to further address how mental health consequences for vulnerable groups can be mitigated under pandemic conditions [(Holmes & O’Connor et al., 2020, p. 547)](https://doi.org/10.1016/S2215-0366(20)30168-1).
+
+The objective of this report is to inform readers about the impacts of COVID-19 on mental health in the United States. Although mental health is a global issue, the decentralized and inconsistent response to COVID-19 in the United States motivates us to explore the United States as a case study for populations in countries implementing dynamic responses to the pandemic; the cyclic nature of lockdowns and control measures implies that the stressors associated with COVID-19 will persist in the United States, so knowledge about COVID-19 mental health consequences will help guide effective government responses and assistance programs.
+
+To investigate the impact of COVID-19 on mental health in the United States, we define our primary question of interest as whether an association exists between the number of COVID-19 cases and deaths and the frequency of indicators of depressive and anxiety disorder. Furthermore, we define our secondary question of interest as, if an association exists between the COVID-19 new case and death count and indicators of depressive and anxiety disorder, whether a specific population in the United States experiences the greatest frequency of symptoms.
+
+We analyze data from the [WHO Coronavirus Dashboard](https://covid19.who.int/) and the Household Pulse Survey [(HPS)](https://www.cdc.gov/nchs/covid19/pulse/mental-health.htm). The WHO Coronavirus Dashboard reflects laboratory-confirmed cases and deaths based upon WHO case definitions, although some departures may exist due to local adaptations. The HPS data set documents the percentage of respondents who report symptoms of anxiety or depression that have been shown to be associated with diagnoses of generalized anxiety disorder or major depressive disorder. The key variables pulled from the WHO Coronavirus Dashboard include New Cases and New Deaths to investigate COVID-19 new case and death count. The key variables pulled from the HPS include Indicator, which we use to identify frequency of symptoms related to depressive or anxiety disorder, and Group, which we use to define populations within the United States. 
+
+Prior analysis of HPS data suggests a disproportionate negative impact of COVID-19 stressors on emotional distress among older persons of color [(Bui et al, 2020, p. 262)](doi:10.1093/geront/gnaa217) and a significant mental health burden stemming from job insecurity among young adults amidst the COVID-19 pandemic [(Ganson et al., 2021, p. 55)](https://doi.org/10.1016/j.jadohealth.2020.10.008). Therefore, we hypothesize that the frequency of indicators of depressive or anxiety disorder increases as the new case and death count associated with COVID-19 grows in the United States. We also expect that, when comparing populations defined by ethnicity, non-White groups will show the greatest frequency of symptoms. When comparing populations defined by age, we expect to find the highest frequency of symptoms related to depressive or anxiety disorder among young adults.
+
+
 Rubric:
 - The introduction clearly states the questions of interest and the impact of results of this data analysis, along with real-world motivation. 
 - In addition, the introduction provides a precise and concise description of the problem setup, source of data, key variables, and possible hypotheses. 
@@ -320,4 +331,20 @@ The Scale-Location plot is similar to the plot of residuals vs fitted in that we
 Rubric:
 - The report clearly states the conclusions of the analysis in the context of the data set. The conlusion demonstrates thorough understanding of the model/method/procedure, real-world meaning of the findings, and acknowledgement of caveats of this report. 
 - Readers that are familiar with this topic or statistics can understand the findings in the context of this topic, are aware of the caveats, and can make decisions based on the findings.
+
+# References
+Abbott, A. (2021). COVID’s mental-health toll: how scientists are tracking a surge in depression. Nature, 590(7845), 194–195. https://doi.org/10.1038/d41586-021-00175-z
+
+Brodeur, A., Clark, A. E., Fleche, S., & Powdthavee, N. (2021). COVID-19, lockdowns and well-being: Evidence from Google Trends. Journal of Public Economics, 193, 104346. https://doi.org/10.1016/j.jpubeco.2020.104346
+
+Bui, C. N., Peng, C., Mutchler, J. E., & Burr, J. A. (2020). Race and Ethnic Group Disparities in Emotional Distress Among Older Adults During the COVID-19 Pandemic. The Gerontologist, 61(2), 262–272. https://doi.org/10.1093/geront/gnaa217
+
+Clemente-Suárez, V. J., Dalamitros, A. A., Beltran-Velasco, A. I., Mielgo-Ayuso, J., & Tornero-Aguilera, J. F. (2020). Social and Psychophysiological Consequences of the COVID-19 Pandemic: An Extensive Literature Review. Frontiers in Psychology, 11, 1–15. https://doi.org/10.3389/fpsyg.2020.580225
+
+Delmastro, M., & Zamariola, G. (2020). Depressive symptoms in response to COVID-19 and lockdown: a cross-sectional study on the Italian population. Scientific Reports, 10(1), 1–10. https://doi.org/10.1038/s41598-020-79850-6
+
+Fields JF, Hunter-Childs J, Tersine A, Sisson J, Parker E, Velkoff V, Logan C, and Shin H. Design and Operation of the 2020 Household Pulse Survey, 2020. U.S. Census Bureau. Forthcoming.
+Ganson, K. T., Tsai, A. C., Weiser, S. D., Benabou, S. E., & Nagata, J. M. (2021). Job Insecurity and Symptoms of Anxiety and Depression Among U.S. Young Adults During COVID-19. Journal of Adolescent Health, 68(1), 53–56. https://doi.org/10.1016/j.jadohealth.2020.10.008
+
+Holmes, E. A., O’Connor, R. C., Perry, V. H., Tracey, I., Wessely, S., Arseneault, L., Ballard, C., Christensen, H., Cohen Silver, R., Everall, I., Ford, T., John, A., Kabir, T., King, K., Madan, I., Michie, S., Przybylski, A. K., Shafran, R., Sweeney, A., … Bullmore, E. (2020). Multidisciplinary research priorities for the COVID-19 pandemic: a call for action for mental health science. The Lancet Psychiatry, 7(6), 547–560. https://doi.org/10.1016/s2215-0366(20)30168-1
 
