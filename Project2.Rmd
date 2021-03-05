@@ -229,6 +229,8 @@ covid.US.Months.stats.deaths %>%
   )
 ```
 
+Strangely, the month of May has a day with a negative number of deaths and the maximum number of deaths in a day is exactly 5,000. The first issue is impossible and the second issue is highly unlikely. Further investigation outside this report is warranted by this strange behavior, but for now the first error is assumed to be a correction of an over-count and the second error is assumed to be an estimate of that day's number of deaths due to COVID. Both of these can be considered a part of the noise that naturally exists in the data. 
+
 # Predictive/Inferential Analysis
 Rubric:
 - The report clearly states the statistical model, method, or procedure in use, which includes the introduction of notation, interpretation of the parameters, statements of assumptions, etc. There are no major errors in the model and implementation of the model. 
