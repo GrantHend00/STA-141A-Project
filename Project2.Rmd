@@ -77,7 +77,7 @@ covid_US$Date_reported <- as.POSIXct(covid_US$Date_reported, format = "%Y-%m-%d"
 
 # subset CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) and the national measure 
 indicators_US = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
-                         Group == "National Estimate" ) %>%     select(Time.Period.Label,Time.Period.Start.Date,Time.Period.End.Date,Value,Low.CI,High.CI,Quartile.Range)
+                         Group == "National Estimate" ) %>%     select(Time.Period,Time.Period.Label,Time.Period.Start.Date,Time.Period.End.Date,Value,Low.CI,High.CI,Quartile.Range)
 
 # remove na data from the indicators leaving 24 values for 24 distinct time periods  
 indicators_US.narm <- indicators_US %>% filter(!is.na(Value))
