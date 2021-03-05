@@ -22,6 +22,9 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(usmap)
 library(reshape2)
+library(lubridate)
+library(rstatix)
+library(gt)
 ```
 
 ***
@@ -56,6 +59,8 @@ Rubric:
 - The descriptive analysis provides thorough descriptive statistics for most variables, which include univariate descriptive statistics for all variables (mean, standard deviations, missing values,  quantiles, etc.), multivariate descriptives of key variables, and insightful patterns in the data set. The descriptives are presented in visually appealing and informative formats. 
 - Readers that are familiar with this topic or statistics understand the major features in this data set, and gain new insights of this data set that are not possible without the descriptives in this report.
 
+With so many datasets to compare it is important to process them carefully and consistently. The data collected from the WHO on Global COVID-19 deaths and cases is first reduced in scope by filtering out all countries except the United States. The data from the Household Pulse Survey (HPS) is looked at in multiple lights. Since the analysis to follow will be focused on country-wide trends, the HPS data is reduced to only contain the national measure for anxiety or depressive disorder. Later in this section this data will be separated and presented based on different groupings such as race, sex, and state. The data collected from Google Trends has already been reduced to covering the United States and so little pre-processing is required.
+
 ```{r}
 # Import WHO COVID Data, CDC Depression and Anxiety Data, and Google Trends
 covid <- read.csv(file = "WHO-COVID-19-global-data.csv", fileEncoding="UTF-8-BOM")
@@ -82,6 +87,8 @@ indicators_US.narm$Time.Period.Start.Date <- as.POSIXct(indicators_US.narm$Time.
 indicators_US.narm$Time.Period.End.Date <- as.POSIXct(indicators_US.narm$Time.Period.End.Date, format = "%m/%d/%Y")
 ```
 
+The HPS data is presented in the following three visuals by race, sex, and state. To aggregate the values in the data based on the selected groupings the mean was used. This data is already heavily pre-processed, so using the mean is the most reasonable as the data can be assumed to be normally distributed.
+
 ```{r}
 # Present Depression or Anxiety Information by Race
 indicators.race <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
@@ -91,7 +98,10 @@ indicators.race.means <- aggregate(indicators.race, list(indicators.race$Subgrou
 ggplot(indicators.race.means, aes(x=Value, y=Group.1, )) + 
   geom_bar(aes(fill=Group.1), stat = "identity", position = "dodge") +
   theme(legend.position = "none") +
-  labs(x = "Average % of Survey Responses Indicating Anxiety or Depression", y = "")
+  labs(title = "Depression or Anxiety Symptoms by Race",
+       subtitle = "Average 2020 Household Pulse Survey",
+       x = "Average % of Survey Responses Indicating Anxiety or Depression", 
+       y = "")
 
 # Present Depression or Anxiety Information by Sex
 indicators.sex <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
@@ -100,7 +110,10 @@ indicators.sex.means <- aggregate(indicators.sex, list(indicators.sex$Subgroup),
 ggplot(indicators.sex.means, aes(x=Value, y=Group.1)) + 
   geom_bar(aes(fill=Group.1), stat = "identity", position = "dodge") +
   theme(legend.position = "none") +
-  labs(x = "Average % of Survey Responses Indicating Anxiety or Depression", y = "")
+  labs(title = "Depression or Anxiety Symptoms by Sex", 
+       subtitle = "Average 2020 Household Pulse Survey",
+       x = "Average % of Survey Responses Indicating Anxiety or Depression", 
+       y = "")
 
 # Present Depression or Anxiety Information by State
 indicators.state <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
@@ -110,10 +123,11 @@ indicators.state.means$Group.1 <- usmap::fips(indicators.state.means$Group.1)
 names(indicators.state.means) <- c('fips','Value')
 usmap::plot_usmap(data=indicators.state.means, values="Value") +
   theme(legend.position = 'right') +
-  labs(title = "Depression or Anxiety Symptoms", subtitle = "Average 2020 Household Pulse Survey") +
+  labs(title = "Depression or Anxiety Symptoms by State", subtitle = "Average 2020 Household Pulse Survey") +
   scale_fill_continuous(low = "yellow", high = "blue", name = "Anxiety or Depression Percentage")
 ```
 
+In the first figure, the racial groups with the lowest survey responses indicating Anxiety or Depression, by almost 10%, are Non-Hispanic white and Non-Hispanic Asian. In the second figure, female respondents indicated anxiety or depression symptoms greater than 10% more male respondents. The third figure shows a heat map of the United States where more yellow coloring represents low percentages of responses indicating anxiety or depression and more blue colors represent higher percentages of responses. It appears the northern-middle part of the country has lowest percentages of responses indicating anxiety or depression, by almost 10%.
 
 ```{r}
 # Fill in dates of indicators and GOOGLE
@@ -149,10 +163,13 @@ all.df <- data.frame(all.covid,all.Anxiety$fill.anxiety.values,all.Depression$fi
 names(all.df) <- c("Date","New Cases","New Deaths","Anxiety Google Trends","Depression Google Trends","Household Pulse Survey")
 ```
 
-```{r}
+To present these several datasets on the same time line, the time frame was restricted to the 2020 calendar year. Since all the datasets except for the WHO COVID-19 cases and deaths are recorded in constant time periods that are greater than a day, they were considered to be constant during their respective sampling period. For example, the Google trends data on Anxiety is recorded every week. The value recorded every week is assigned to every day of that week. This allows for simple visual comparisons as shown below.
+
+```{r fig1, fig.height = 12, fig.width = 12}
 # Show daily deaths, cases, anxiety|depression, and google trends overtime
 all.df.m <- melt(all.df, "Date")
 # New_cases,New_deaths,all.Anxiety.fill.anxiety.values,all.Depression.fill.depression.values,all.HPS.fill.values
+options(repr.plot.width = 8, repr.plot.height = 0.75)
 ggplot(all.df.m, aes(Date,value,colour = variable)) + 
   geom_point() + 
   geom_point() + 
@@ -160,7 +177,56 @@ ggplot(all.df.m, aes(Date,value,colour = variable)) +
   geom_point() + 
   geom_point() + 
   facet_wrap(~ variable, ncol=1,scales = "free_y") +
-  labs(title = "Depression or Anxiety Symptoms", subtitle = "Average 2020 Household Pulse Survey")
+  labs(title = "Depression or Anxiety Symptoms", 
+       subtitle = "Average 2020 Household Pulse Survey",
+       y = "Value of respective datasets (in order top to bottom): [Cases] [Deaths] [% trend], [% trend], [% with symptoms]") + 
+  theme(text = element_text(size = 8), element_line(size = 0.2))
+```
+
+Finally, the following two tables present aggregated statistics for each month from the WHO COVID-19 Data.
+
+```{r}
+covid.US.Months <- data.frame(covid_US) %>% subset(Date_reported >= as.POSIXct("2020-01-01") & Date_reported < as.POSIXct("2021-01-01"),c(Date_reported,New_cases,New_deaths))
+covid.US.Months$Date_reported <- format(covid.US.Months$Date_reported, "01-%m-%Y")
+covid.US.Months.stats.cases <- covid.US.Months %>% 
+                                select(Date_reported,New_cases) %>%
+                                group_by(Date_reported) %>%
+                                get_summary_stats(type='common')
+covid.US.Months.stats.deaths <- covid.US.Months %>% 
+                                  select(Date_reported,New_deaths) %>%
+                                  group_by(Date_reported) %>%
+                                  get_summary_stats(type='common')
+covid.US.Months.stats.cases %>% 
+  select('Date_reported','min','max','median','mean','sd') %>%
+  gt() %>%
+  tab_header(
+    title = "2020 COVID-19 Cases",
+    subtitle = "Values per day of each month"
+  ) %>%
+  fmt_date(
+    columns = vars(Date_reported),
+    date_style = 11
+  ) %>%
+  fmt_number(
+    columns = vars(min,max,median,mean,sd),
+    decimals = 0
+  )
+
+covid.US.Months.stats.deaths %>% 
+  select('Date_reported','min','max','median','mean','sd') %>%
+  gt() %>%
+  tab_header(
+    title = "2020 COVID-19 Deaths",
+    subtitle = "Values per day of each month"
+  ) %>%
+  fmt_date(
+    columns = vars(Date_reported),
+    date_style = 11
+  ) %>%
+  fmt_number(
+    columns = vars(min,max,median,mean,sd),
+    decimals = 0
+  )
 ```
 
 # Predictive/Inferential Analysis
