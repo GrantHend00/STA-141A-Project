@@ -22,6 +22,9 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(usmap)
 library(reshape2)
+library(lubridate)
+library(rstatix)
+library(gt)
 ```
 
 ***
@@ -138,10 +141,11 @@ all.df <- data.frame(all.covid,all.Anxiety$fill.anxiety.values,all.Depression$fi
 names(all.df) <- c("Date","New Cases","New Deaths","Anxiety Google Trends","Depression Google Trends","Household Pulse Survey")
 ```
 
-```{r}
+```{r fig1, fig.height = 12, fig.width = 12}
 # Show daily deaths, cases, anxiety|depression, and google trends overtime
 all.df.m <- melt(all.df, "Date")
 # New_cases,New_deaths,all.Anxiety.fill.anxiety.values,all.Depression.fill.depression.values,all.HPS.fill.values
+options(repr.plot.width = 8, repr.plot.height = 0.75)
 ggplot(all.df.m, aes(Date,value,colour = variable)) + 
   geom_point() + 
   geom_point() + 
@@ -149,7 +153,52 @@ ggplot(all.df.m, aes(Date,value,colour = variable)) +
   geom_point() + 
   geom_point() + 
   facet_wrap(~ variable, ncol=1,scales = "free_y") +
-  labs(title = "Depression or Anxiety Symptoms", subtitle = "Average 2020 Household Pulse Survey")
+  labs(title = "Depression or Anxiety Symptoms", subtitle = "Average 2020 Household Pulse Survey") + 
+  theme(text = element_text(size = 8), element_line(size = 0.2))
+```
+
+```{r}
+covid.US.Months <- data.frame(covid_US) %>% subset(Date_reported >= as.POSIXct("2020-01-01") & Date_reported < as.POSIXct("2021-01-01"),c(Date_reported,New_cases,New_deaths))
+covid.US.Months$Date_reported <- format(covid.US.Months$Date_reported, "01-%m-%Y")
+covid.US.Months.stats.cases <- covid.US.Months %>% 
+                                select(Date_reported,New_cases) %>%
+                                group_by(Date_reported) %>%
+                                get_summary_stats(type='common')
+covid.US.Months.stats.deaths <- covid.US.Months %>% 
+                                  select(Date_reported,New_deaths) %>%
+                                  group_by(Date_reported) %>%
+                                  get_summary_stats(type='common')
+covid.US.Months.stats.cases %>% 
+  select('Date_reported','min','max','median','mean','sd') %>%
+  gt() %>%
+  tab_header(
+    title = "2020 COVID-19 Cases",
+    subtitle = "Values per day of each month"
+  ) %>%
+  fmt_date(
+    columns = vars(Date_reported),
+    date_style = 11
+  ) %>%
+  fmt_number(
+    columns = vars(min,max,median,mean,sd),
+    decimals = 0
+  )
+
+covid.US.Months.stats.deaths %>% 
+  select('Date_reported','min','max','median','mean','sd') %>%
+  gt() %>%
+  tab_header(
+    title = "2020 COVID-19 Deaths",
+    subtitle = "Values per day of each month"
+  ) %>%
+  fmt_date(
+    columns = vars(Date_reported),
+    date_style = 11
+  ) %>%
+  fmt_number(
+    columns = vars(min,max,median,mean,sd),
+    decimals = 0
+  )
 ```
 
 # Predictive/Inferential Analysis
