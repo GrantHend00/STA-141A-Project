@@ -170,13 +170,48 @@ Rubric:
 - Readers that are familiar with this topic or statistics can understand the proposed model/method/procedure and the retionale behind it. Most concerns or disagreements have been addressed in the report. 
 - Furthermore, based on the report, readers who have sufficient knowledge in statistics can fully reproduce the analysis on their own.
 
+```{r setup, include=FALSE}
+#setting the working directory 
+setwd("C:/Users/leakelly/Desktop/STA 141 A")
+knitr::opts_chunk$set(eval = TRUE, echo = TRUE, fig.align='center')
+
+#loading the covid data 
+covid <- read_csv("https://covid19.who.int/WHO-COVID-19-global-data.csv")
+covid
+
+#loading the CDC anxiety data
+indicators = read.csv("Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv", header=TRUE)
+indicators
+
+#subsetting the covid data to include only the data from the US
+covid_US = subset(covid, Country == "United States of America")
+covid_US
+
+#subsetting the CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) and the national measure
+indicators_US = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
+                         Group == "National Estimate" )
+indicators_US
+
+#removing the na data from the indicators dataset, this leaves 24 values for 24 distinct time periods  
+indicators_US.narm <- indicators_US %>% filter(!is.na(Value))
+```
 
 ```{r}
-# In order to create the linear model first the time periods from both datasets needed to be standardized. The CDC anxiety data has 
-# 24 datapoints for distinct time periods. The WHO covid data has 427 datapoints for distinct days. The days in the WHO covid data 
-# that match to the time periods in the CDC anxiety data were then compiled, and averages were taken for new cases and new deaths. 
-# Doing this controls for time in the model. 
+#plot looking at the cumulative deaths over the dates reported
+qplot(Date_reported, Cumulative_deaths, data = covid_US)
 
+#plot looking at the cases of covid over the dates reported 
+qplot(Date_reported, New_cases, data = covid_US)
+
+#plot looking at the CDC anxiety data over the time reported 
+qplot(Time.Period, Value, data = indicators_US.narm)
+```
+
+<span style='color:blue'>
+In order to create the linear model first the dates needed to be standardized. The CDC Depression and Anxiety data has 24 datapoints for distinct time periods. The WHO COVID-19 data has 427 datapoints for distinct days. The days in the WHO COVID-19 that math ot the time periods in the CDC Depression and Anxiety data were then compiled and averages were taken for new cases and new deaths. Doing this contrils for the time series variable in the data. 
+</span>
+
+```{r}
 dates1 = covid_US[112:124,]
 dates2 = covid_US[126:131,]
 dates3 = covid_US[133:138,]
@@ -294,17 +329,36 @@ plot(x=cases, y=anxiety_value, main="cases ~ anxiety_value")
 plot(x=deaths, y=anxiety_value, main="deaths ~ anxiety_value")
 ```
 
+<span style='color:blue'>
+In order to determine if there was any relationship between new COVID-19 cases and values for symptoms reported of Anxiety Disorder or Depressive Disorder, the relationship between new COVID-19 deaths and values for symptoms reported of Anxiety Disorder or Depressive Disorder were also examined. In roder to examine these relationships a linear model was fit. A linear model is appropriate for these analyses because the mdoel is explaining a continuous variable, $Y$, as a mathematical function of one or more variables, $X$, so that we can use this regression model to predict the $Y$ when only the $X$ is known.
+The linear model is defined as $Y = \beta_1 + \beta_2X  + \epsilon$
+where $Y$ represents the Anxiety Disorder or Depressive Disorder value. $\beta_1$ represents the intercept and $\beta_2$ represents the slope. $\epsilon$ represents the error term, the part of $Y$ that the regression model is unable to explain.
+The $H_0$ is that $B_2=0$ and the $H_A$ is that $B_2\ne0$ meaning that there is a relationship between $X$ and $Y$. 
+</span>
+
+<span style='color:blue'>
+This model assumes that the relationship between $X$ and $Y$ is linear and for ant fixed value of $X$, $Y$ is normally distributed. This model also assumes homoscedasticity, that the variance of residuals is the same for any value of $X$, and independence, that each observation is independent of each other. In order to put the values for $X$ and $Y$ on a similiar scale the log of $Y$ was used in the model. 
+</span>
+
 ```{r}
-#Basic linear model relating new cases vs anxiety value, the reported summary shows that the slope (depression_value) is significant #and positive for this relationship. 
 linearMod_cases <- lm(log(cases) ~ anxiety_value, data=compiled_data)
 summary(linearMod_cases)
 ```
 
+<span style='color:blue'>
+The reported summary for this model relating $Y$, number of new covid cases, to $X$ the value reported in the CDC Depression and Anxiety data, shows a positive linear relationship that is significant at p value = 0.05, from this information we can reject the null hypothesis, $H_0$, which states that $B_2=0$. 
+</span>
+
 ```{r}
 #Basic linear model relating new deaths vs anxiety value, the reported summary shows that the slope (depression_value) is not #significant and positive for this relationship. 
-linearMod_deaths <- lm(deaths ~ anxiety_value, data=compiled_data)
+linearMod_deaths <- lm(log(deaths) ~ anxiety_value, data=compiled_data)
 summary(linearMod_deaths)
 ```
+
+<span style='color:blue'>
+The reported summary for this model relating $Y$, number of new covid deaths, to $X$ the value reported in the CDC Depression and Anxiety data, shows a positive linear relationship that is not significant at p value = 0.05, from this information we can accept the null hypothesis, $H_0$, which states that $B_2=0$. 
+</span>
+
 
 # Sensitivity Analysis
 Rubric:
