@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 )
 # Include all necessary libraries
 library(tidyverse)
+library(usmap)
+library(reshape2)
 ```
 
 ***
@@ -49,19 +51,105 @@ covid <- read.csv(file = "WHO-COVID-19-global-data.csv")
 indicators <- read.csv(file = "CDC_Anxiety.csv", header=T)
 GOOGLE <- read.csv(file = "Google_US_Depression_Anxiety.csv")
 
+# Convert date column to POSIXct
+GOOGLE$Week <- as.POSIXct(GOOGLE$Week)
+GOOGLE <- subset(GOOGLE, Week >= as.POSIXct("2020-01-01"))
+
 # subset covid data to include only US data 
-covid_US = subset(covid, Country == "United States of America")
+covid_US = subset(covid, Country == "United States of America") %>% select(Date_reported,New_cases,Cumulative_cases,New_deaths,Cumulative_deaths)
+covid_US$Date_reported <- as.POSIXct(covid_US$Date_reported, format = "%Y-%m-%d")
 
 # subset CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) and the national measure 
 indicators_US = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
-                         Group == "National Estimate" ) %>%     select(Time.Period,Time.Period.Label,Time.Period.Start.Date,Time.Period.End.Date,Value,Low.CI,High.CI,Quartile.Range)
+                         Group == "National Estimate" ) %>%     select(Time.Period.Label,Time.Period.Start.Date,Time.Period.End.Date,Value,Low.CI,High.CI,Quartile.Range)
 
 # remove na data from the indicators leaving 24 values for 24 distinct time periods  
 indicators_US.narm <- indicators_US %>% filter(!is.na(Value))
 
 # Convert start/end date to standard format.
-indicators_US.narm$Time.Period.Start.Date <- as.Date(as.POSIXct(indicators_US.narm$Time.Period.Start.Date, format = "%m/%d/%Y %I:%M:%S %p"))
-indicators_US.narm$Time.Period.End.Date <- as.Date(as.POSIXct(indicators_US.narm$Time.Period.End.Date, format = "%m/%d/%Y %I:%M:%S %p"))
+indicators_US.narm$Time.Period.Start.Date <- as.POSIXct(indicators_US.narm$Time.Period.Start.Date, format = "%m/%d/%Y")
+indicators_US.narm$Time.Period.End.Date <- as.POSIXct(indicators_US.narm$Time.Period.End.Date, format = "%m/%d/%Y")
+```
+
+```{r}
+# Present Depression or Anxiety Information by Race
+indicators.race <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
+                         Group == "By Race/Hispanic ethnicity", c(Subgroup, Value)) %>% filter(!is.na(Value))
+indicators.race$Subgroup <- as.character(indicators.race$Subgroup)
+indicators.race.means <- aggregate(indicators.race, list(indicators.race$Subgroup), mean)
+ggplot(indicators.race.means, aes(x=Value, y=Group.1, )) + 
+  geom_bar(aes(fill=Group.1), stat = "identity", position = "dodge") +
+  theme(legend.position = "none") +
+  labs(x = "Average % of Survey Responses Indicating Anxiety or Depression", y = "")
+
+# Present Depression or Anxiety Information by Sex
+indicators.sex <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
+                         Group == "By Gender",c(Subgroup, Value))  %>% filter(!is.na(Value))
+indicators.sex.means <- aggregate(indicators.sex, list(indicators.sex$Subgroup), mean)
+ggplot(indicators.sex.means, aes(x=Value, y=Group.1)) + 
+  geom_bar(aes(fill=Group.1), stat = "identity", position = "dodge") +
+  theme(legend.position = "none") +
+  labs(x = "Average % of Survey Responses Indicating Anxiety or Depression", y = "")
+
+# Present Depression or Anxiety Information by State
+indicators.state <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
+                         Group == "By State", c(Subgroup,Value))  %>% filter(!is.na(Value))
+indicators.state.means <- aggregate(indicators.state, list(indicators.state$Subgroup), mean) %>% select(Group.1,Value)
+indicators.state.means$Group.1 <- usmap::fips(indicators.state.means$Group.1)
+names(indicators.state.means) <- c('fips','Value')
+usmap::plot_usmap(data=indicators.state.means, values="Value") +
+  theme(legend.position = 'right') +
+  labs(title = "Depression or Anxiety Symptoms", subtitle = "Average 2020 Household Pulse Survey") +
+  scale_fill_continuous(low = "yellow", high = "blue", name = "Anxiety or Depression Percentage")
+```
+
+
+```{r}
+# Fill in dates of indicators and GOOGLE
+HPS <- list()
+for (i in 1:(dim(indicators_US.narm)[1]-1)) {
+  fill.dates <- seq(indicators_US.narm[i,'Time.Period.Start.Date'], indicators_US.narm[i+1,'Time.Period.Start.Date'] - 1*60*60*24, by="days")
+  fill.values <- c(rep(1,length(fill.dates)))*indicators_US.narm[i,'Value']
+  fill.dates.df <- data.frame(fill.dates,fill.values)
+  HPS[[i]] <- fill.dates.df
+}
+HPS.full <- bind_rows(HPS)
+
+Trends.Anxiety <- list()
+Trends.Depression <- list()
+for (i in 1:(dim(GOOGLE)[1]-1)) {
+  fill.dates <- seq(GOOGLE[i,'Week'], GOOGLE[i+1,'Week'] - 1*60*60*24, by="days")
+  fill.anxiety.values <- c(rep(1,length(fill.dates)))*GOOGLE[i,'Anxiety...United.States.']
+  fill.depression.values <- c(rep(1,length(fill.dates)))*GOOGLE[i,'Depression...United.States.']
+  fill.dates.df <- data.frame(fill.dates,fill.anxiety.values)
+  Trends.Anxiety[[i]] <- fill.dates.df
+  fill.dates.df <- data.frame(fill.dates,fill.depression.values)
+  Trends.Depression[[i]] <- fill.dates.df
+}
+Trends.Anxiety.Full <- bind_rows(Trends.Anxiety)
+Trends.Depression.Full <- bind_rows(Trends.Depression)
+
+# Combine into one dataframe
+all.covid <- covid_US %>% subset(Date_reported >= as.POSIXct("2020-04-23") & Date_reported < as.POSIXct("2021-01-01"),c(Date_reported,New_cases,New_deaths))
+all.Anxiety <- Trends.Anxiety.Full %>% subset(fill.dates >= as.POSIXct("2020-04-23") & fill.dates < as.POSIXct("2021-01-01"))
+all.Depression <- Trends.Depression.Full %>% subset(fill.dates >= as.POSIXct("2020-04-23") & fill.dates < as.POSIXct("2021-01-01"))
+all.HPS <- HPS.full %>% subset(fill.dates >= as.POSIXct("2020-04-23") & fill.dates < as.POSIXct("2021-01-01"))
+all.df <- data.frame(all.covid,all.Anxiety$fill.anxiety.values,all.Depression$fill.depression.values,all.HPS$fill.values)
+names(all.df) <- c("Date","New Cases","New Deaths","Anxiety Google Trends","Depression Google Trends","Household Pulse Survey")
+```
+
+```{r}
+# Show daily deaths, cases, anxiety|depression, and google trends overtime
+all.df.m <- melt(all.df, "Date")
+# New_cases,New_deaths,all.Anxiety.fill.anxiety.values,all.Depression.fill.depression.values,all.HPS.fill.values
+ggplot(all.df.m, aes(Date,value,colour = variable)) + 
+  geom_point() + 
+  geom_point() + 
+  geom_point() + 
+  geom_point() + 
+  geom_point() + 
+  facet_wrap(~ variable, ncol=1,scales = "free_y") +
+  labs(title = "Depression or Anxiety Symptoms", subtitle = "Average 2020 Household Pulse Survey")
 ```
 
 # Predictive/Inferential Analysis
@@ -71,16 +159,6 @@ Rubric:
 - Readers that are familiar with this topic or statistics can understand the proposed model/method/procedure and the retionale behind it. Most concerns or disagreements have been addressed in the report. 
 - Furthermore, based on the report, readers who have sufficient knowledge in statistics can fully reproduce the analysis on their own.
 
-```{r}
-#plot cumulative deaths over time
-qplot(Date_reported, Cumulative_deaths, data = covid_US)
-
-#plot covid cases over time
-qplot(Date_reported, New_cases, data = covid_US)
-
-#plot looking at the CDC anxiety data over the time reported 
-qplot(Time.Period, Value, data = indicators_US.narm)
-```
 
 ```{r}
 # In order to create the linear model first the time periods from both datasets needed to be standardized. The CDC anxiety data has 
