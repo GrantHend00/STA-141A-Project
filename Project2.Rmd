@@ -365,19 +365,46 @@ Rubric:
 - The report conducts extensive sentivity analysis to examine the plausibility of key assumptions in this analysis using visualization and rigorous testings.  In addition, results from alternative methods are obtained and compared with results in the main analysis,  to evaluate the impacts of key assumptions. 
 - Results from the sensitivity analysis are interpreted in the context of the data set, and provide insights and suggestions for future analysis. Readers that are familiar with this topic or statistics gain confidence in the authors' analysis and knowledge. 
 
+
+For our model we want to check the assumption of the linear regression model including:
+* Linear Relationship
+* Homoscedasticity
+* Independence
+* Normality 
+
+```{r}
+  ggplot(data = compiled_data, aes(x = anxiety_value, y=cases)) +
+    geom_point(color = 'blue') +
+    geom_smooth(method = "lm", se = FALSE, color = 'red')
+```
+
+The raw case data in relation to anxiety value does not appear to be linear. The lm() line calculation does not fit all of the data evenly and has some tailing at the high end of cases and anxiety values. While there does appear to be a correlation, the relationship does not appear to be linear. 
+
+```{r}
+  ggplot(data = compiled_data, aes(x = anxiety_value, y=log(cases))) +
+    geom_point(color = 'blue') +
+    geom_smooth(method = "lm", se = FALSE, color = 'red')
+```
+
+Upon an initial visualization to check for a linear relationship, we see that there is nothing to indicate otherwise. The data does not appear to be in any other form than linear. Log-transorming the data allows us to perform a linear regression as we cannot reject the assumption that the relationship is linear after tranforming the data.
+
 ```{r}
   plot(linearMod_cases)
 ```
 
-In the residual plot, we want to check that the fitted residual line is mostly horizontal. We want our residual plot to have randomly distributed error terms with no clear pattern that are relatively close to this fitted line.
-
-In the plot for our model that relates case counts to anxiety rates, we see this line is not completely horizontal but it is nothing concerning enough to throw it out. At the end of the graph where there are higher case counts, the values drift off from the fitted line slightly but most of the data points are near this line.
+In the residual plot, we want to check that the fitted residual line is mostly horizontal. We want our residual plot to have randomly distributed error terms with no clear pattern that are relatively close to this fitted line. In the model that relates log-transformed case counts and anxiety rates in the survey, we see this line is not perfectly horizontal, but nothing concerning to throw out the entire model. Some of the data is not spread evenly and there may be a couple outliers.
 
 In the Normal Q-Q plot, we want to see that most of the data points are on the theoretical dashed line incicating normality. Our data here has a majority of the points near this line and has some tailing on either end of the distribution but nothing major. This would indicate normal distribution.
 
-The Scale-Location plot is similar to the plot of residuals vs fitted in that we want a horizontal fitted line and similar spread of the error terms.
+The Scale-Location plot, similar to the residual plot, wants a fitted line as horizontal as possible. Here we see similar results with no major deviations from a horizontal fitted line and a similar spread which should be looked into further via Cook's distance to determine outliers.
 
+In the Residuals vs leverage plot with Cook's distance, we see that there are no points that pass the Cook's distance line. Since no points are outside the line our model assumptions hold.
 
+### Insights and Suggestions for future Analysis
+
+All our assumptions appear to hold for the model that related log-transformed case counts and anxiety rates in the country. While some data points come close to the Cook's distance line of 0.5 and our residual plot is not as great as it could be, there is not strong enough evidence in these plots to reject the model and it's assumptions. 
+
+One way to be more conclusive about the assumptions is to have more data points, the data we collected is only weekly and the case-counts were aggregated weekly to allow for a proper comparison. More data points may be helpful, but weekly case data tends to be similar to daily case data and may not end up having that much of an impact on the conclusions. However, more data points would allow the model validation to be improved. 
 
 
 
@@ -385,6 +412,8 @@ The Scale-Location plot is similar to the plot of residuals vs fitted in that we
 Rubric:
 - The report clearly states the conclusions of the analysis in the context of the data set. The conlusion demonstrates thorough understanding of the model/method/procedure, real-world meaning of the findings, and acknowledgement of caveats of this report. 
 - Readers that are familiar with this topic or statistics can understand the findings in the context of this topic, are aware of the caveats, and can make decisions based on the findings.
+
+Our analysis finds that there is a relationship between COVID-Cases in the United States and anxiety rates. The model itself has a very low p-value which indicates that the null hypothesis of no relationship is rejected rather conclusively. In addition a high Adjusted $R^2$ of 0.8475 suggests the two observations are highly correlated. 
 
 # References
 Abbott, A. (2021). COVID’s mental-health toll: how scientists are tracking a surge in depression. Nature, 590(7845), 194–195. https://doi.org/10.1038/d41586-021-00175-z
