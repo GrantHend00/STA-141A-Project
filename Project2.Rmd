@@ -50,7 +50,7 @@ Rubric:
 
 ```{r}
 # Import WHO COVID Data, CDC Depression and Anxiety Data, and Google Trends
-covid <- read.csv(file = "WHO-COVID-19-global-data.csv")
+covid <- read.csv(file = "WHO-COVID-19-global-data.csv", fileEncoding="UTF-8-BOM")
 indicators <- read.csv(file = "CDC_Anxiety.csv", header=T)
 GOOGLE <- read.csv(file = "Google_US_Depression_Anxiety.csv")
 
@@ -334,7 +334,7 @@ plot(x=deaths, y=anxiety_value, main="deaths ~ anxiety_value")
 
 ```{r}
 #Basic linear model relating new cases vs anxiety value, the reported summary shows that the slope (depression_value) is significant #and positive for this relationship. 
-linearMod_cases <- lm(cases ~ anxiety_value, data=compiled_data)
+linearMod_cases <- lm(log(cases) ~ anxiety_value, data=compiled_data)
 summary(linearMod_cases)
 ```
 
@@ -348,6 +348,22 @@ summary(linearMod_deaths)
 Rubric:
 - The report conducts extensive sentivity analysis to examine the plausibility of key assumptions in this analysis using visualization and rigorous testings.  In addition, results from alternative methods are obtained and compared with results in the main analysis,  to evaluate the impacts of key assumptions. 
 - Results from the sensitivity analysis are interpreted in the context of the data set, and provide insights and suggestions for future analysis. Readers that are familiar with this topic or statistics gain confidence in the authors' analysis and knowledge. 
+
+```{r}
+  plot(linearMod_cases)
+```
+
+In the residual plot, we want to check that the fitted residual line is mostly horizontal. We want our residual plot to have randomly distributed error terms with no clear pattern that are relatively close to this fitted line.
+
+In the plot for our model that relates case counts to anxiety rates, we see this line is not completely horizontal but it is nothing concerning enough to throw it out. At the end of the graph where there are higher case counts, the values drift off from the fitted line slightly but most of the data points are near this line.
+
+In the Normal Q-Q plot, we want to see that most of the data points are on the theoretical dashed line incicating normality. Our data here has a majority of the points near this line and has some tailing on either end of the distribution but nothing major. This would indicate normal distribution.
+
+The Scale-Location plot is similar to the plot of residuals vs fitted in that we want a horizontal fitted line and similar spread of the error terms.
+
+
+
+
 
 # Conclusion
 Rubric:
