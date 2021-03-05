@@ -54,12 +54,14 @@ covid_US = subset(covid, Country == "United States of America")
 
 # subset CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) and the national measure 
 indicators_US = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
-                         Group == "National Estimate" )
+                         Group == "National Estimate" ) %>%     select(Time.Period,Time.Period.Label,Time.Period.Start.Date,Time.Period.End.Date,Value,Low.CI,High.CI,Quartile.Range)
 
 # remove na data from the indicators leaving 24 values for 24 distinct time periods  
 indicators_US.narm <- indicators_US %>% filter(!is.na(Value))
-covid_US
-indicators_US
+
+# Convert start/end date to standard format.
+indicators_US.narm$Time.Period.Start.Date <- as.Date(as.POSIXct(indicators_US.narm$Time.Period.Start.Date, format = "%m/%d/%Y %I:%M:%S %p"))
+indicators_US.narm$Time.Period.End.Date <- as.Date(as.POSIXct(indicators_US.narm$Time.Period.End.Date, format = "%m/%d/%Y %I:%M:%S %p"))
 ```
 
 # Predictive/Inferential Analysis
@@ -81,7 +83,10 @@ qplot(Time.Period, Value, data = indicators_US.narm)
 ```
 
 ```{r}
-#In order to create the linear model first the time periods from both datasets needed to be standardized. The CDC anxiety data has #24 datapoints for distinct time periods. The WHO covid data has 427 datapoints for distinct days. The days in the WHO covid data #that match to the time periods in the CDC anxiety data were then compiled, and averages were taken for new cases and new deaths. #Doing this controls for time in the model. 
+# In order to create the linear model first the time periods from both datasets needed to be standardized. The CDC anxiety data has 
+# 24 datapoints for distinct time periods. The WHO covid data has 427 datapoints for distinct days. The days in the WHO covid data 
+# that match to the time periods in the CDC anxiety data were then compiled, and averages were taken for new cases and new deaths. 
+# Doing this controls for time in the model. 
 
 dates1 = covid_US[112:124,]
 dates2 = covid_US[126:131,]
