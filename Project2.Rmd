@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   eval = TRUE, 
-  echo = TRUE, 
+  echo = FALSE, 
   fig.align='center'
 )
 # Include all necessary libraries
@@ -442,3 +442,6 @@ Ganson, K. T., Tsai, A. C., Weiser, S. D., Benabou, S. E., & Nagata, J. M. (2021
 
 Holmes, E. A., O’Connor, R. C., Perry, V. H., Tracey, I., Wessely, S., Arseneault, L., Ballard, C., Christensen, H., Cohen Silver, R., Everall, I., Ford, T., John, A., Kabir, T., King, K., Madan, I., Michie, S., Przybylski, A. K., Shafran, R., Sweeney, A., … Bullmore, E. (2020). Multidisciplinary research priorities for the COVID-19 pandemic: a call for action for mental health science. The Lancet Psychiatry, 7(6), 547–560. https://doi.org/10.1016/s2215-0366(20)30168-1
 
+# Appendix
+```{r, ref.label=knitr::all_labels(),echo=TRUE,eval=FALSE}
+```
