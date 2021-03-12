@@ -21,22 +21,24 @@ Good coverage of the data sets and background information. The full report cover
 # Major comments 
 
 Some major comments from the other teams in our discussion group are as follows:
-- Without an abstract, the report structure is less academic. 
-- The introduction, while precise and concise is too long.
-- The statistical method, procedure, and interpretation should be broken into sections to make it very clear to the reader.
-- The data set for anxiety levels seems sparse and too precise, degrading the analysis that is done in the report.
-- Providing context for the figures right next to the plots would improve reader legibility. The reader will not have to scroll up to view the plot if this is done.
+
+* Without an abstract, the report structure is less academic. 
+* The introduction, while precise and concise is too long.
+* The statistical method, procedure, and interpretation should be broken into sections to make it very clear to the reader.
+* The data set for anxiety levels seems sparse and too precise, degrading the analysis that is done in the report.
+* Providing context for the figures right next to the plots would improve reader legibility. The reader will not have to scroll up to view the plot if this is done.
 
 # Minor comments 
 
 Some minor comments from the other teams in our discussion group are as follows:
-- In text citations are done inappropriately. While the references and links make it easy to find the source, APA style dictates that an author name and year are all that should be included. 
-- It would be preferred if the discussion on what data sets are used were in the background section.
-- A trend line for the Google trends would be helpful in visually showing the overall trend.
-- Some clearer plot labels would benefit the legibility and reader comprehension. For example, the plots in the Inferential Analysis section should have better titles and x and y labels.
-- Some more discussion on validating the choice to use mean over median would improve the reliability of the analysis.
-- Consistency in discussing errors in the data would make the report more comprehensible. For example, the discussion of the errors in the number of deaths plot switches terms from "issue" to "error".
-- The data presented is presented in different time frames throughout the report. For example, only 3 plots include data from 2021. Perhaps this should be changed so that all the time frames are the same.
+
+* In text citations are done inappropriately. While the references and links make it easy to find the source, APA style dictates that an author name and year are all that should be included. 
+* It would be preferred if the discussion on what data sets are used were in the background section.
+* A trend line for the Google trends would be helpful in visually showing the overall trend.
+* Some clearer plot labels would benefit the legibility and reader comprehension. For example, the plots in the Inferential Analysis section should have better titles and x and y labels.
+* Some more discussion on validating the choice to use mean over median would improve the reliability of the analysis.
+* Consistency in discussing errors in the data would make the report more comprehensible. For example, the discussion of the errors in the number of deaths plot switches terms from "issue" to "error".
+* The data presented is presented in different time frames throughout the report. For example, only 3 plots include data from 2021. Perhaps this should be changed so that all the time frames are the same.
 
 # Questions to address during the final presentation
 
