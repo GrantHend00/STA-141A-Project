@@ -98,13 +98,13 @@ ggplot(indicators.race.means, aes(x=Value, y=Group.1, )) +
 indicators.sex <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
                          Group == "By Gender",c(Subgroup, Value))  %>% filter(!is.na(Value))
 indicators.sex.means <- aggregate(indicators.sex, list(indicators.sex$Subgroup), mean)
-ggplot(indicators.sex.means, aes(x=Value, y=Group.1)) + 
-  geom_bar(aes(fill=Group.1), stat = "identity", position = "dodge") +
-  theme(legend.position = "none") +
-  labs(title = "Depression or Anxiety Symptoms by Sex", 
-       subtitle = "Average 2020 Household Pulse Survey",
-       x = "Average % of Survey Responses Indicating Anxiety or Depression", 
-       y = "")
+# ggplot(indicators.sex.means, aes(x=Value, y=Group.1)) + 
+#  geom_bar(aes(fill=Group.1), stat = "identity", position = "dodge") +
+#  theme(legend.position = "none") +
+#  labs(title = "Depression or Anxiety Symptoms by Sex", 
+#       subtitle = "Average 2020 Household Pulse Survey",
+#       x = "Average % of Survey Responses Indicating Anxiety or Depression", 
+#       y = "")
 
 # Present Depression or Anxiety Information by State
 indicators.state <- subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
@@ -171,7 +171,7 @@ ggplot(all.df.m, aes(Date,value,colour = variable)) +
   labs(title = "Depression or Anxiety Symptoms", 
        subtitle = "Average 2020 Household Pulse Survey",
        y = "Value of respective datasets (in order top to bottom): [Cases] [Deaths] [% trend], [% trend], [% with symptoms]") + 
-  theme(text = element_text(size = 8), element_line(size = 0.2))
+  theme(text = element_text(size = 12), element_line(size = 0.2))
 ```
 
 Finally, the following two tables present aggregated statistics for each month from the WHO COVID-19 Data.
@@ -187,37 +187,37 @@ covid.US.Months.stats.deaths <- covid.US.Months %>%
                                   select(Date_reported,New_deaths) %>%
                                   group_by(Date_reported) %>%
                                   get_summary_stats(type='common')
-covid.US.Months.stats.cases %>% 
-  select('Date_reported','min','max','median','mean','sd') %>%
-  gt() %>%
-  tab_header(
-    title = "2020 COVID-19 Cases",
-    subtitle = "Values per day of each month"
-  ) %>%
-  fmt_date(
-    columns = vars(Date_reported),
-    date_style = 11
-  ) %>%
-  fmt_number(
-    columns = vars(min,max,median,mean,sd),
-    decimals = 0
-  )
-
-covid.US.Months.stats.deaths %>% 
-  select('Date_reported','min','max','median','mean','sd') %>%
-  gt() %>%
-  tab_header(
-    title = "2020 COVID-19 Deaths",
-    subtitle = "Values per day of each month"
-  ) %>%
-  fmt_date(
-    columns = vars(Date_reported),
-    date_style = 11
-  ) %>%
-  fmt_number(
-    columns = vars(min,max,median,mean,sd),
-    decimals = 0
-  )
+# covid.US.Months.stats.cases %>% 
+#   select('Date_reported','min','max','median','mean','sd') %>%
+#   gt() %>%
+#   tab_header(
+#     title = "2020 COVID-19 Cases",
+#     subtitle = "Values per day of each month"
+#   ) %>%
+#   fmt_date(
+#     columns = vars(Date_reported),
+#     date_style = 11
+#   ) %>%
+#   fmt_number(
+#     columns = vars(min,max,median,mean,sd),
+#     decimals = 0
+#   )
+# 
+# covid.US.Months.stats.deaths %>% 
+#   select('Date_reported','min','max','median','mean','sd') %>%
+#   gt() %>%
+#   tab_header(
+#     title = "2020 COVID-19 Deaths",
+#     subtitle = "Values per day of each month"
+#   ) %>%
+#   fmt_date(
+#     columns = vars(Date_reported),
+#     date_style = 11
+#   ) %>%
+#   fmt_number(
+#     columns = vars(min,max,median,mean,sd),
+#     decimals = 0
+#   )
 ```
 
 Strangely, the month of May has a day with a negative number of deaths and the maximum number of deaths in a day is exactly 5,000. The first issue is impossible and the second issue is highly unlikely. Further investigation outside this report is warranted by this strange behavior, but for now the first error is assumed to be a correction of an over-count and the second error is assumed to be an estimate of that day's number of deaths due to COVID. Both of these can be considered a part of the noise that naturally exists in the data. 
