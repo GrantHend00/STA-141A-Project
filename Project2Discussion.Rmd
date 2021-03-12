@@ -40,8 +40,9 @@ Some minor comments from the other teams in our discussion group are as follows:
 
 # Questions to address during the final presentation
 
-1. 
-2. 
-3. 
-4.
-5. 
+1. What are some possible reasons case counts are correlated with higher anxiety rates but not deaths?
+2. What are some possible confounders?
+3. What are the symptoms/indicators of anxiety and depression and is there a level of severity being measured?
+4. Does an association exists between the number of confirmed COVID-19 cases and the frequency of indicators, or symptoms, of depressive or anxiety disorder?
+5. What improvements in the model resulted due to the log transformation of the case data?
+
