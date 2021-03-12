@@ -345,7 +345,6 @@ anxiety_value = indicators_US.narm$Value
 
 #The compiled data has the date, the average number of cases for that date period, the average number of deaths for that date #period, and the reported CDC anxiety value for that data period. 
 compiled_data = data.frame(dates, cases, deaths, anxiety_value)
-compiled_data
 ```
 ```{r}
 #Plot showing new cases vs anxiety value 
@@ -402,14 +401,26 @@ The raw case data in relation to anxiety value does not appear to be linear. The
 Upon an initial visualization to check for a linear relationship, we see that there is nothing to indicate otherwise. The data does not appear to be in any other form than linear. Log-transorming the data allows us to perform a linear regression as we cannot reject the assumption that the relationship is linear after tranforming the data.
 
 ```{r}
-  plot(linearMod_cases)
+  plot(linearMod_cases, which = 1)
 ```
 
 In the residual plot, we want to check that the fitted residual line is mostly horizontal. We want our residual plot to have randomly distributed error terms with no clear pattern that are relatively close to this fitted line. In the model that relates log-transformed case counts and anxiety rates in the survey, we see this line is not perfectly horizontal, but nothing concerning to throw out the entire model. Some of the data is not spread evenly and there may be a couple outliers.
 
+```{r}
+  plot(linearMod_cases, which = 2)
+```
+
 In the Normal Q-Q plot, we want to see that most of the data points are on the theoretical dashed line incicating normality. Our data here has a majority of the points near this line and has some tailing on either end of the distribution but nothing major. This would indicate normal distribution.
 
+```{r}
+  plot(linearMod_cases, which = 3)
+```
+
 The Scale-Location plot, similar to the residual plot, wants a fitted line as horizontal as possible. Here we see similar results with no major deviations from a horizontal fitted line and a similar spread which should be looked into further via Cook's distance to determine outliers.
+
+```{r}
+  plot(linearMod_cases, which = 5)
+```
 
 In the Residuals vs leverage plot with Cook's distance, we see that there are no points that pass the Cook's distance line. Since no points are outside the line our model assumptions hold.
 
@@ -421,11 +432,11 @@ One way to be more conclusive about the assumptions is to have more data points,
 
 # Conclusion
 
-Our analysis finds that there is a relationship between COVID-Cases in the United States and anxiety rates. The model itself has a very low p-value which indicates that the null hypothesis of no relationship is rejected rather conclusively. In addition a high Adjusted $R^2$ of 0.8475 suggests the two observations are highly correlated. 
+Our analysis shows a relationship between the number of COVID-19 cases and indicators of depression and anxiety among people living in the United States. We aggregated the daily case counts from the WHO Coronavirus Dashboard with the frequency of anxiety and depression symptoms reported in the HPS data set, and then used this aggregated data to create a linear model to analyze the relationship between case rates and the rate of anxiety or depression symptoms. We found a relationship between these two variables with an extremely low p-value and a high adjusted $R^2$ of 0.8475. The model assumptions appear to hold, so the low p-value suggests that we may conclusively reject the null hypothesis of no relationship existing between COVID-19 cases and indicators of anxiety or depression. In addition, the high Adjusted $R^2$ suggests that COVID-19 cases and symptoms of depression or anxiety are highly correlated. 
 
-The analysis was conducted by aggregating the daily case data found in the WHO data set with the anxiety data used from the CDC. Using this, a linear model was created to analyze the relationship between case rates and anxiety rates. It was found that there is a relationship between these two variables with an extremely low p-value with the model assumptions appearing to hold. 
+Caveats of our analysis include not being able to infer causality between COVID-19 cases and symptoms of depression or anxiety and not measuring the effects of potential confounders. Barriers to making causal statements arise from the lack of information produced by the HPS on respondents’ employment status, social support, family and living arrangements, pre-existing mental health symptoms and diagnoses, and community characteristics, all of which may be related to emotional distress [(Bui et al., 2020, p. 271]( doi:10.1093/geront/gnaa217); [Ganson et al., 2021, p. 55]( https://doi.org/10.1016/j.jadohealth.2020.10.008)). Potential confounders that may be important to address in future analysis are the effects of season or pre-existing mental health conditions. For example, weather fluctuations might influence both COVID-19 transmission and the prevalence of seasonal affective disorder, so future analysis that incorporates seasonal effects such as temperature and hours of daylight might produce more precise results. Additionally, chronic stress associated with pre-existing mental health conditions weakens individuals’ immune systems and might lead to more frequent symptoms of depression or anxiety; therefore, future analysis incorporating effects of pre-existing mental health conditions such as biological or psychological markers of stress might also produce more precise results???
 
-One major factor to keep in mind is that depression has been studied extensively and many factors have been found to be related to depression. Some of these factors include staying indoors extensively, loss of employment, among other things. Many factors of life linked to increased depression can also be related to the rise in COVID-19 cases. For example, the increase in cases resulted in an increase in unemployment as businesses were forced to shut down due to the newest restrictions. Thus, the unemployment rate could be a cofounder that obfuscates the true cause in increase in anxiety rates. Other factors such as an increase in family or friends dying as a result of the pandemic could certainly have a significant impact on overall mental health. It is important to not conclude that COVID-19 cases *cause* increase anxiety rates but we simply showed there was a relationship in this analysis.
+Depression and anxiety have been studied extensively and many factors are known to contribute to their development. Some of these factors, such as staying indoors extensively and loss of employment, are byproducts of the government restrictions and lockdowns due to COVID-19. Other factors such as the deaths of loved ones are unfortunately inevitable consequences of the COVID-19 pandemic. These external factors may further obfuscate the true cause of the increased frequency of depression and anxiety symptoms since the start of the pandemic, so it is important to recognize that we cannot conclude that COVID-19 cases *cause* increased depression or anxiety rates. However, we can acknowledge that the COVID-19 pandemic has introduced multifaceted challenges to healthcare and policy, and that mental health should not be ignored in efforts to understand and solve them???
 
 # References
 Abbott, A. (2021). COVID’s mental-health toll: how scientists are tracking a surge in depression. Nature, 590(7845), 194–195. https://doi.org/10.1038/d41586-021-00175-z
