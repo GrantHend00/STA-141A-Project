@@ -34,13 +34,15 @@ For example, the second bar plot is much larger than the first and could be repl
 
 **4. The statistical method, procedure, and interpretation should be broken into sections to make it very clear to      the reader.**
 
-Using subheadings or adding a table to summarize each section might make this section easier to read.
+Using subheadings or adding a table to summarize each section might make this section easier to read. Describing each section in the context of the data set would also help the reader understand this section.
 
 **5. The data set for anxiety levels seems sparse and too precise, degrading the analysis that is done in the report.**
 
 Adding information about how anxiety was measured in the survey might make up for this.
 
-**6. Providing context for the figures right next to the plots in the sensitivity analysis would improve reader legibility. The reader will not have to scroll up to view the plot if this is done.**
+**6. Providing context for the figures right next to the plots in the sensitivity analysis would improve reader legibility.**
+
+Although the interpretation for the sensitivity analysis is good, the format is confusing for the reader. If descriptions are placed near each individual plot, the reader will not have to scroll between the section.
 
 
 # Minor comments 
@@ -59,6 +61,7 @@ Adding information about how anxiety was measured in the survey might make up fo
 
 7. The data presented is presented in different time frames throughout the report. For example, only 3 plots include data from 2021. Perhaps this should be changed so that all the time frames are the same.
 
+8. Before predictive analysis, the statement “The first issue is impossible and the second issue is highly unlikely” is a little unclear. It may be helpful to say something along the lines of “having a negative number of deaths is not possible while the maximum number of deaths is ….”. 
 
 # Questions to address during the final presentation
 
