@@ -13,7 +13,7 @@ knitr::opts_chunk$set(fig.pos = 'H')
 
 ***
 
-# Overall impression LK 
+# Overall impression  
 
 The full report covers a complex and interesting investigation into a question that is not trivial or trite. The report is written thoroughly and methodically. Trends and patterns in the data sets that we analyze are clear to the reader. Our main strengths are explaining the background research related to our topic and interpreting the results of our analysis. Our main weaknesses are discussing results in the context of our questions of interest, formatting the report to use space effectively, and clearly labeling figures. 
 
@@ -21,13 +21,16 @@ The full report covers a complex and interesting investigation into a question t
 
 **1. The report is missing an abstract.**
 
-Without an abstract, the report structure is less academic. Including an abstract might also help the reader      understand the trajectory of the report.
+Without an abstract, the report structure is less academic. Including an abstract might also help the reader understand the trajectory of the report.
 
 **2. The background and introduction sections explain the data sets, methodology, and topic precisely and concisely. However, the introduction is too long.**
+
+The introduction should be compressed if possible and double checked for redundant information and be removed if needed.
 
 **3. The visual appeal of the descriptive analysis section could be improved by being more selective about which        plots to include and adding clear labels to the plots.**
 
 For example, the second bar plot is much larger than the first and could be replaced with a sentence including     the percentages it shows. The five curves on depression and anxiety symptoms also use a lot of space but are hard to interpret, so adding a trend line might help the reader understand the significance of the plots. In addition, the tables do not add much meaningful information and could be removed to make the section more concise.
+
 
 **4. The statistical method, procedure, and interpretation should be broken into sections to make it very clear to      the reader.**
 
@@ -38,6 +41,7 @@ Using subheadings or adding a table to summarize each section might make this se
 Adding information about how anxiety was measured in the survey might make up for this.
 
 **6. Providing context for the figures right next to the plots in the sensitivity analysis would improve reader legibility. The reader will not have to scroll up to view the plot if this is done.**
+
 
 # Minor comments 
 
