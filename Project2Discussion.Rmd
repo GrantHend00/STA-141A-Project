@@ -13,7 +13,7 @@ knitr::opts_chunk$set(fig.pos = 'H')
 
 ***
 
-# Overall impression
+# Overall impression LK 
 
 The full report covers a complex and interesting investigation into a question that is not trivial or trite. The report is written thoroughly and methodically. Trends and patterns in the data sets that we analyze are clear to the reader. Our main strengths are explaining the background research related to our topic and interpreting the results of our analysis. Our main weaknesses are discussing results in the context of our questions of interest, formatting the report to use space effectively, and clearly labeling figures. 
 
