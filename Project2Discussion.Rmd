@@ -1,11 +1,11 @@
 ---
-title: "Report 2 Discussion"
+title: "Project 2 Discussion Report"
 author: "Group 1 "
 date: "03/12/2021"
 output:
   html_document:
     df_print: paged
-    number_sections: yes
+    number_sections: no
 ---
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(fig.pos = 'H')
@@ -13,32 +13,48 @@ knitr::opts_chunk$set(fig.pos = 'H')
 
 ***
 
-
 # Overall impression
 
-Good coverage of the data sets and background information. The full report covers a complex and interesting investigation into a question that is not trivial or trite. The report is written thoroughly and methodically. It is very clear to the reader the trends and patterns that exist in the data sets that are being analyzed. The report shows some weaknesses in the discussion of granular information about the data sets and interpretation of the final analysis results. Also the report could benefit from better presentation. For example, placing text discussing a figure right next to the figure would improve the quality of the report. 
+The full report covers a complex and interesting investigation into a question that is not trivial or trite. The report is written thoroughly and methodically. Trends and patterns in the data sets that we analyze are clear to the reader. Our main strengths are explaining the background research related to our topic and interpreting the results of our analysis. Our main weaknesses are discussing results in the context of our questions of interest, formatting the report to use space effectively, and clearly labeling figures. 
 
 # Major comments 
 
-Some major comments from the other teams in our discussion group are as follows:
+**1. The report is missing an abstract.**
 
-* Without an abstract, the report structure is less academic. 
-* The introduction, while precise and concise is too long.
-* The statistical method, procedure, and interpretation should be broken into sections to make it very clear to the reader.
-* The data set for anxiety levels seems sparse and too precise, degrading the analysis that is done in the report.
-* Providing context for the figures right next to the plots would improve reader legibility. The reader will not have to scroll up to view the plot if this is done.
+Without an abstract, the report structure is less academic. Including an abstract might also help the reader      understand the trajectory of the report.
+
+**2. The background and introduction sections explain the data sets, methodology, and topic precisely and concisely. However, the introduction is too long.**
+
+**3. The visual appeal of the descriptive analysis section could be improved by being more selective about which        plots to include and adding clear labels to the plots.**
+
+For example, the second bar plot is much larger than the first and could be replaced with a sentence including     the percentages it shows. The five curves on depression and anxiety symptoms also use a lot of space but are hard to interpret, so adding a trend line might help the reader understand the significance of the plots. In addition, the tables do not add much meaningful information and could be removed to make the section more concise.
+
+**4. The statistical method, procedure, and interpretation should be broken into sections to make it very clear to      the reader.**
+
+Using subheadings or adding a table to summarize each section might make this section easier to read.
+
+**5. The data set for anxiety levels seems sparse and too precise, degrading the analysis that is done in the report.**
+
+Adding information about how anxiety was measured in the survey might make up for this.
+
+**6. Providing context for the figures right next to the plots in the sensitivity analysis would improve reader legibility. The reader will not have to scroll up to view the plot if this is done.**
 
 # Minor comments 
 
-Some minor comments from the other teams in our discussion group are as follows:
+1. In text citations are done inappropriately. While the references and links make it easy to find the source, APA style dictates that an author name and year are all that should be included. 
 
-* In text citations are done inappropriately. While the references and links make it easy to find the source, APA style dictates that an author name and year are all that should be included. 
-* It would be preferred if the discussion on what data sets are used were in the background section.
-* A trend line for the Google trends would be helpful in visually showing the overall trend.
-* Some clearer plot labels would benefit the legibility and reader comprehension. For example, the plots in the Inferential Analysis section should have better titles and x and y labels.
-* Some more discussion on validating the choice to use mean over median would improve the reliability of the analysis.
-* Consistency in discussing errors in the data would make the report more comprehensible. For example, the discussion of the errors in the number of deaths plot switches terms from "issue" to "error".
-* The data presented is presented in different time frames throughout the report. For example, only 3 plots include data from 2021. Perhaps this should be changed so that all the time frames are the same.
+2. It would be preferred if the discussion on what data sets are used were in the background section.
+
+3. A trend line for the Google trends would be helpful in visually showing the overall trend.
+
+4. Some clearer plot labels would benefit the legibility and reader comprehension. For example, the plots in the Inferential Analysis section should have better titles and x and y labels.
+
+5. Some more discussion on validating the choice to use mean over median would improve the reliability of the analysis.
+
+6. Consistency in discussing errors in the data would make the report more comprehensible. For example, the discussion of the errors in the number of deaths plot switches terms from "issue" to "error".
+
+7. The data presented is presented in different time frames throughout the report. For example, only 3 plots include data from 2021. Perhaps this should be changed so that all the time frames are the same.
+
 
 # Questions to address during the final presentation
 
@@ -47,4 +63,3 @@ Some minor comments from the other teams in our discussion group are as follows:
 3. What are the symptoms/indicators of anxiety and depression and is there a level of severity being measured?
 4. Does an association exists between the number of confirmed COVID-19 cases and the frequency of indicators, or symptoms, of depressive or anxiety disorder?
 5. What improvements in the model resulted due to the log transformation of the case data?
-
