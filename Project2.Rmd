@@ -352,6 +352,10 @@ anxiety_value = indicators_US.narm$Value
 #The compiled data has the date, the average number of cases for that date period, the average number of deaths for that date #period, and the reported CDC anxiety value for that data period. 
 compiled_data = data.frame(dates, cases, deaths, anxiety_value)
 ```
+
+First plots were examined showing new COVID-19 cases or new COVID-19 deaths with values reported for symptoms of Anxiety Disorder or Depressive Disorder, this was done in order to visually assess if a linear model would be an appropriate fit to this data. After the plots were examined it was conlcuded that a linear model would provide, atleast initially, a suitable fit to the data presented. 
+
+
 ```{r}
 #Plot showing new cases vs anxiety value 
 plot(x=cases, y=anxiety_value, main="cases ~ anxiety_value")  
@@ -359,6 +363,10 @@ plot(x=cases, y=anxiety_value, main="cases ~ anxiety_value")
 #Plot showing new deaths vs anxiety value 
 plot(x=deaths, y=anxiety_value, main="deaths ~ anxiety_value")
 ```
+
+
+The linear models built to examine new COVID-19 cases or new COVID-19 deaths and values reported for symptoms of Anxiety Disorder or Depressive Disorder assume that the relationship between $X$ and $Y$ is linear and that for any fixed value of $X$, $Y$ is normally distributed. This model also assumes homoscedasticity, that the variance of residuals is the same for any value of $X$, and independence, that each observation is independent of each other. In order to put the values for $X$ and $Y$ on a similiar scale the log of $Y$ was used in the model. 
+
 
 In order to determine if there was any relationship between new COVID-19 cases and values for symptoms reported of Anxiety Disorder or Depressive Disorder, the relationship between new COVID-19 deaths and values for symptoms reported of Anxiety Disorder or Depressive Disorder were also examined. In roder to examine these relationships a linear model was fit. A linear model is appropriate for these analyses because the mdoel is explaining a continuous variable, $Y$, as a mathematical function of one or more variables, $X$, so that we can use this regression model to predict the $Y$ when only the $X$ is known.
 The linear model is defined as $Y = \beta_1 + \beta_2X  + \epsilon$
@@ -381,6 +389,65 @@ summary(linearMod_deaths)
 ```
 
 The reported summary for this model relating $Y$, number of new covid deaths, to $X$ the value reported in the CDC Depression and Anxiety data, shows a positive linear relationship that is not significant at p value = 0.05, from this information we can accept the null hypothesis, $H_0$, which states that $B_2=0$. 
+
+The linear model built to examine the relationship of new COVID-19 cases versus values reported in the CDC Depression and Anxiety data shows that there is in fact a significant positive relationship between the two variables, this result allows for further analyses to examine if there were any differences in the CDC Depression and Anxiety data between races and age groups over the time period of the COVID-19 pandemic. Examining levels of anxiety and depression with an ANOVA between race groups and age groups will show if the pandemic effected the anxiety and depression levels of these race groups and age groups uniformly or disparately.
+
+In order to determine if there were any differences in values reported for symptoms of Anxiety Disorder or Depressive Disorder across race group and across age group an ANOVA model was fit (one model for each). An ANOVA model is appropriate for this analysis because there are one categorical explanatory variables.
+The two-way ANOVA model is defined as $Y_{ij} = \mu + \alpha_{i} + \epsilon_{ij}$
+where:
+$Y_{ij}$ represents the expected value for reported symptoms of Anxiety Disporder or Depressive Disorder 
+$i$ represents the race  
+$j$ represents the $j$th oberservation for treatment $i$
+$\mu{..}$ represents the expected mean over all races 
+$ \alpha_{i}$ represents the mean adjustment for level $i$ of race  
+$\epsilon_{ij}$ represents the error for race $i$, observation $j$
+
+This model assumes that the mean of the response variable is influenced additively and linearly by the experimental factor, the errors of the model are independent, the errors have the same variance, and the errors are normally distributed. For this model that means that the value for reported symptoms of Anxiety Disorder or Depressive Disorder are influenced by race. For each observation, $n$, in this model there is unexplained variation in the reported symptoms of Anxiety Disorder or Depressive Disorder from the calculated reported symptoms of Anxiety Disorder or Depressive Disorder, represented by $Y_{ij}$, which is held in the error term. These deviations are asssumed to be independent of one another and normally distributed around a mean of 0.  
+
+```{r}
+covid_US
+
+#subsetting the CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) grouped by race 
+indicators
+indicators_race = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
+                         Group == "By Race/Hispanic ethnicity" )
+indicators_race
+indicators_race.narm <- indicators_race %>% filter(!is.na(Value))
+indicators_race.narm
+```
+```{r}
+summary(indicators_race.narm)
+anova_race = aov(Value ~ Subgroup, data = indicators_race.narm)
+summary(anova_race)
+
+library(emmeans)
+emmeans(anova_race, pairwise ~ "Subgroup")
+```
+
+The results of the ANOVA model comparing reported symptoms of Anxiety Disorder or Depressive Disorder between race groups indicates that there are significant difference between race groups. Non-Hispanic, other races and multiple races had the highest values, followed by Hispanic or Latino which was followed by, by not significantly different than, Non-Hispanic black, single race. The next highest rates were in Non-Hispanic white, single race, then Non-Hispanic Asian, single race. All differences were significant aside from the one mentioned. 
+
+```{r}
+covid_US
+
+#subsetting the CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) grouped by age 
+indicators
+indicators_age = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
+                         Group == "By Age" )
+indicators_age
+indicators_age.narm <- indicators_age %>% filter(!is.na(Value))
+indicators_age.narm
+```
+
+```{r}
+summary(indicators_age.narm)
+anova_age = aov(Value ~ Subgroup, data = indicators_age.narm)
+summary(anova_age)
+
+emmeans(anova_age, pairwise ~ "Subgroup")
+```
+
+The results of the ANOVA model comparing reported symptoms of Anxiety Disorder or Depressive Disorder between age groups indicates that there are significant difference between all age groups. Age group 18-29 years had the highest reported values for symptoms of Anxiety Disorder or Depressive Disorder followed by 30-39 years which was followed by 40-49 years. The four age groups following (50-59 years, 60-69 years, 70-79 years, and 80 years and above) had reported for symptoms of Anxiety Disorder or Depressive Disorder that decreased according to increasing age. 
+
 
 # Sensitivity Analysis
 
