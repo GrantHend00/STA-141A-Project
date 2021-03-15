@@ -53,9 +53,12 @@ With so many datasets to compare it is important to process them carefully and c
 
 ```{r}
 # Import WHO COVID Data, CDC Depression and Anxiety Data, and Google Trends
-covid <- read.csv(file = "WHO-COVID-19-global-data.csv", fileEncoding="UTF-8-BOM")
-indicators <- read.csv(file = "CDC_Anxiety.csv", header=T)
-GOOGLE <- read.csv(file = "Google_US_Depression_Anxiety.csv")
+WHO.path <- file.path("..","Data","WHO-COVID-19-global-data.csv")
+CDC.path <- file.path("..","Data","CDC_Anxiety.csv")
+GOOGLE.path <- file.path("..","Data","Google_US_Depression_Anxiety.csv")
+covid <- read.csv(file = WHO.path, fileEncoding="UTF-8-BOM")
+indicators <- read.csv(file = CDC.path, header=T)
+GOOGLE <- read.csv(file = GOOGLE.path)
 
 # Convert date column to POSIXct
 GOOGLE$Week <- as.POSIXct(GOOGLE$Week)
