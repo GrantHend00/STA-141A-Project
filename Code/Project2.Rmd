@@ -1,7 +1,7 @@
 ---
 title: Project 2 Report 
-date: "Due 5 pm PST March 5th 2021"
-author: "Group 1"
+date: "March 14, 2021"
+author: "Project Team 1: Grant Henderson, Leanna Kelly, Sidney Parel, and Trevor Vidano"
 output:
   html_document:
     df_print: paged
@@ -31,13 +31,13 @@ library(gt)
 
 # Introduction
 
-The effects of the COVID-19 pandemic on mental health have become an increasingly recognized issue in public discourse, yet mental health science perspectives remain relatively overlooked in the construction of research priorities and policy agendas related to recovery from the COVID-19 pandemic. Researchers recognize that the psychological and social effects of the COVID-19 pandemic on mental health are pervasive [(Holmes & O’Connor et al., 2020)](https://doi.org/10.1016/S2215-0366(20)30168-1) and that, without government support, individuals are at risk of bearing a “psychological scar” [(Clemente-Suárez et al., 2020, p. 4)](https://doi.org/10.3389/fpsyg.2020.580225) long after the pandemic ends. Therefore, coordination between governments and global research platforms to prioritize understanding mental health outcomes during the COVID-19 pandemic is necessary to mitigate mental health consequences for vulnerable groups under current and future pandemic conditions [(Holmes & O’Connor et al., 2020)](https://doi.org/10.1016/S2215-0366(20)30168-1).
+The effects of the COVID-19 pandemic on mental health have become an increasingly recognized issue in public discourse, yet mental health science perspectives remain relatively overlooked in the construction of research priorities and policy agendas related to recovery from the COVID-19 pandemic. Researchers recognize that the psychological and social effects of the COVID-19 pandemic on mental health are pervasive [(Holmes & O’Connor et al., 2020)](https://doi.org/10.1016/S2215-0366(20)30168-1) and that, without government support, individuals are at risk of bearing a “psychological scar” [(Clemente-Suárez et al., 2020, p. 4)](https://doi.org/10.3389/fpsyg.2020.580225) long after the pandemic ends. However, these findings have not led to the prioritization of mental health in COVID-19 response policies or assistance programs Therefore, coordination between governments and global research platforms to prioritize understanding recent mental health outcomes is necessary to safeguard well-being under current and future pandemic conditions [(Holmes & O’Connor et al., 2020)](https://doi.org/10.1016/S2215-0366(20)30168-1).
 
-The objective of this report is to inform readers about the impacts of COVID-19 on mental health in the United States. Although mental health is a global issue, the decentralized and inconsistent response to COVID-19 in the United States motivates us to explore populations in the United States as a case study for populations in countries implementing similar dynamic responses to the pandemic. The cyclic nature of lockdowns and control measures in the United States means Americans will continue to experience stressors associated with the COVID-19 pandemic. So, we hope that our findings will help advance knowledge about Americans’ vulnerability to negative mental health outcomes so that susceptible groups can be prioritized in government response and assistance programs related to COVID-19 or future pandemics.
+The objective of this report is to inform readers about the impacts of COVID-19 on mental health in the United States. Although mental health is a global issue, the decentralized and inconsistent response to COVID-19 in the United States motivates us to investigate how the cyclic nature of lockdowns and control measures might influence exposure to stressors associated with the pandemic. So, we hope that our findings will help advance knowledge about Americans’ vulnerability to negative mental health outcomes so that susceptible groups can be prioritized in government response and assistance programs related to COVID-19 or future pandemics.
 
-To investigate the impact of COVID-19 on mental health in the United States, we explore data from the [WHO Coronavirus Dashboard](https://covid19.who.int/) and the [United States Census Bureau Household Pulse Survey (HPS)]( https://www.cdc.gov/nchs/covid19/pulse/mental-health.htm). We also provide descriptive analysis of Google search queries related to anxiety and depression to supplement the HPS data and guide our hypotheses. We define our primary question of interest as whether an association exists between the number of confirmed COVID-19 cases and the frequency of indicators, or symptoms, of depressive or anxiety disorder. Furthermore, we define our secondary question of interest as, if an association exists between the number of confirmed COVID-19 cases and the frequency of indicators of depressive and anxiety disorder, whether a specific population in the United States experiences the greatest frequency of symptoms. To produce combined data sets for our analysis, we select the `Date_reported`, `Country`, `New_cases`, `Cumulative_cases`, `New_deaths`, and `Cumulative_deaths` variables from the WHO Coronavirus Dashboard and the `Indicator`, `Group`, `Time Period`, `Time Period Label`, `Time Period Start Date`, `Time Period End Date`, `Value`, `Low CI`, `High CI`, and `Quartile Range` variables from the HPS.
+To investigate the impact of COVID-19 on mental health in the United States, we explore data from the [WHO Coronavirus Dashboard](https://covid19.who.int/) and the [United States Census Bureau Household Pulse Survey (HPS)]( https://www.cdc.gov/nchs/covid19/pulse/mental-health.htm). We also provide descriptive analysis of Google search queries related to anxiety and depression to supplement the HPS data and guide our hypotheses. We define our primary question of interest as whether an association exists between the number of confirmed COVID-19 cases and the frequency of indicators, or symptoms, of depressive or anxiety disorder. Furthermore, we define our secondary question of interest as, if an association exists between the number of confirmed COVID-19 cases and the frequency of indicators of depressive and anxiety disorder, whether a specific population in the United States experiences the greatest frequency of symptoms. To produce combined data sets for our analysis, we select the `Date_reported`, `Country`, `New_cases`, `Cumulative_cases`, `New_deaths`, and `Cumulative_deaths` variables from the WHO Coronavirus Dashboard and the `Indicator`, `Group`, `Time Period`, `Time Period Label`, `Time Period Start Date`, `Time Period End Date`, and `Value` variables from the HPS.
 
-Prior analyses of HPS data suggest a disproportionate negative impact of COVID-19 stressors on emotional distress among older persons of color. [(Bui et al., 2020)](https://doi.org/10.1093/geront/gnaa217) and a significant mental health burden stemming from job insecurity among young adults amidst the COVID-19 pandemic [(Ganson et al., 2021)](https://doi.org/10.1016/j.jadohealth.2020.10.008). Consequently, we hypothesize that the frequency of indicators of depressive or anxiety disorder increase as the new case count associated with COVID-19 grows in the United States. We also expect that, when comparing populations defined by ethnicity, non-White groups will have the greatest frequency of symptoms. When comparing populations defined by age, we expect to find the highest frequency of symptoms related to depressive or anxiety disorder among young adults, but older adults may also be vulnerable to a greater risk of symptoms.
+Prior analyses of HPS data suggest a disproportionate negative impact of COVID-19 stressors on emotional distress among older persons of color. [(Bui et al., 2020)](https://doi.org/10.1093/geront/gnaa217) and a significant mental health burden stemming from job insecurity among young adults amidst the COVID-19 pandemic [(Ganson et al., 2021)](https://doi.org/10.1016/j.jadohealth.2020.10.008). Consequently, we hypothesize that the frequency of indicators of depressive or anxiety disorder is positively associated with COVID-19 cases in the United States. We also expect that, when comparing populations defined by ethnicity, people of color will have the greatest frequency of symptoms. When comparing populations defined by age, we expect to find the highest frequency of symptoms among young adults, but older adults may also be vulnerable to a greater risk of symptoms.
 
 # Background
 
@@ -236,10 +236,14 @@ Strangely, the month of May has a day with a negative number of deaths, which is
 In order to determine if there was any relationship between new COVID-19 cases or new COVID-19 deaths and values reported for symptoms of Anxiety Disorder or Depressive Disorder a linear model was fit. A linear model is appropriate for these analyses because the model is explaining a continuous variable, $Y$, as a mathematical function of one or more variables, $X$, so that we can use this model to predict the $Y$ when only the $X$ is known.
 The linear model used in this analysis is defined as $Y = \beta_1 + \beta_2X  + \epsilon$
 where:
-$Y$ represents the value reported for symptoms of Anxiety Disorder or Depressive Disorder  
-$\beta_1$ represents the intercept 
-$\beta_2$ represents the slope 
-$\epsilon$ represents the error term (the part of $Y$ that the regression model is unable to explain)
+
+* $Y$ represents the value reported for symptoms of Anxiety Disorder or Depressive Disorder  
+
+* $\beta_1$ represents the intercept 
+
+* $\beta_2$ represents the slope 
+
+* $\epsilon$ represents the error term (the part of $Y$ that the regression model is unable to explain)
 
 The $H_0$ is that $B_2=0$ and the $H_A$ is that $B_2\ne0$ meaning that there is a linear relationship between $X$ and $Y$. 
 
@@ -352,7 +356,6 @@ deaths = c(dates1_deaths, dates2_deaths, dates3_deaths, dates4_deaths, dates5_de
 anxiety_value = indicators_US.narm$Value
  
 compiled_data = data.frame(dates, cases, deaths, anxiety_value)
-compiled_data
 ```
 
 First plots were examined showing new COVID-19 cases or new COVID-19 deaths with values reported for symptoms of Anxiety Disorder or Depressive Disorder, this was done in order to visually assess if a linear model would be an appropriate fit to this data. After the plots were examined it was concluded that a linear model would provide, at least initially, a suitable fit to the data presented. 
@@ -381,32 +384,33 @@ The reported summary for the model relating $Y$, number of new COVID-19 cases, t
 
 The model relating $Y$, number of new COVID-19 deaths, to $X$ the value reported in the CDC Depression and Anxiety data, shows a positive linear relationship that is not significant at p value = 0.05, from this information we can accept the null hypothesis, $H_0$, which states that $B_2=0$. The rest of the analysis will focus on the relationship between new COVID-19 cases and the value reported in the CDC Depression and Anxiety data because that relationship was significant. 
 
-The conclusion that can be drawn from this model is that an association exists between the number of confirmed COVID-19 cases and the frequency of indicators, or symptoms, of Depressive or Anxiety disorder, this answers our primary question of interest for this report. This conclusion, derived from the data from the WHO Coronavirus Dashboard and the United States Census Bureau Household Pulse Survey (HPS) confirms the information presented by Holmes and O'Connor (2020) that there are effects from the COVID-19 pandemic on mental health. This information is also consistent with the Google Trends data that showed a significant increase in search terms related to poor mental well-being as associated with the global pandemic (Brodeur et al., 2020, p.1). The information here allows us to address our secondary question of interest, if an association exists between the number of COVID-19 cases and the frequency of indicators of depressive and anxiety disorder, whether a specific population in the United States experiences the greatest frequency of symptoms. The populations examined here were race groups (Hispanic or Latino, Non-Hispanic Asian, Non-Hispanic black, Non-Hispanic white, and Non-Hispanic other races and multiple races) and age groups (18-29, 30-39, 40-49, 50-59, 60-69, 70-79, and 80 years and above). Examining levels of anxiety and depression with an ANOVA between race groups and age groups will show if the pandemic has affected the anxiety and depression levels of these race groups and age groups uniformly or disparately.
+The conclusion that can be drawn from this model is that an association exists between the number of confirmed COVID-19 cases and the frequency of indicators, or symptoms, of Depressive or Anxiety disorder. This answers our primary question of interest for this report. This conclusion, derived from the data from the WHO Coronavirus Dashboard and the HPS, also confirms the information presented by [Holmes and O'Connor (2020)](https://doi.org/10.1016/s2215-0366(20)30168-1) that there are effects from the COVID-19 pandemic on mental health. This information is also consistent with the Google Trends data that showed a significant increase in search terms related to poor mental well-being as associated with the global pandemic [(Brodeur et al., 2020)](https://doi.org/10.1016/j.jpubeco.2020.104346). The information here allows us to address our secondary question of interest of whether a specific population in the United States experiences the greatest frequency of symptoms. The populations examined here were race groups (Hispanic or Latino, Non-Hispanic Asian, Non-Hispanic black, Non-Hispanic white, and Non-Hispanic other races and multiple races) and age groups (18-29, 30-39, 40-49, 50-59, 60-69, 70-79, and 80 years and above). Examining levels of anxiety and depression with an ANOVA between race groups and age groups will show if the pandemic has affected the anxiety and depression levels of these race groups and age groups uniformly or disparately.
 
 In order to determine if there were any differences in values reported for symptoms of Anxiety Disorder or Depressive Disorder across race group and across age group an ANOVA model was fit (one model for each). An ANOVA model is appropriate for this analysis because there is one categorical explanatory variable.
 The two-way ANOVA model is defined as $Y_{ij} = \mu + \alpha_{i} + \epsilon_{ij}$
 where:
-$Y_{ij}$ represents the expected value for reported symptoms of Anxiety Disorder or Depressive Disorder 
-$i$ represents the race group or age group
-$j$ represents the $j$th observation for group $i$
-$\mu{..}$ represents the expected mean over all race groups or age groups 
-$ \alpha_{i}$ represents the mean adjustment for group $i$ of race group or age group  
-$\epsilon_{ij}$ represents the error for race group or age group $i$, observation $j$
+
+* $Y_{ij}$ represents the expected value for reported symptoms of Anxiety Disorder or Depressive Disorder
+
+* $i$ represents the race group or age group
+
+* $j$ represents the $j$th observation for group $i$
+
+* $\mu{..}$ represents the expected mean over all race groups or age groups
+
+* $\alpha_{i}$ represents the mean adjustment for group $i$ of race group or age group  
+
+* $\epsilon_{ij}$ represents the error for race group or age group $i$, observation $j$
 
 This model assumes that the mean of the response variable is influenced additively by the experimental factor, the errors of the model are independent, the errors have the same variance, and the errors are normally distributed. For this model that means that the value for reported symptoms of Anxiety Disorder or Depressive Disorder are influenced by race group or age group. For each observation, $n$, in this model there is unexplained variation in the reported symptoms of Anxiety Disorder or Depressive Disorder from the calculated reported symptoms of Anxiety Disorder or Depressive Disorder. These deviations are assumed to be independent of one another and normally distributed around a mean of 0.  
 
 The null hypothesis for the race group model states that, $H_0 : \alpha_1 = \alpha_2 = \alpha_3 = \alpha_4 = \alpha_5 = 0$, the alternative hypothesis states that $H_a$ : not all $\alpha$s are zero.
 
 ```{r}
-covid_US
-
 #subsetting the CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) grouped by race 
-indicators
 indicators_race = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
                          Group == "By Race/Hispanic ethnicity" )
-indicators_race
 indicators_race.narm <- indicators_race %>% filter(!is.na(Value))
-indicators_race.narm
 ```
 
 ```{r}
@@ -418,20 +422,15 @@ library(emmeans)
 emmeans(anova_race, pairwise ~ "Subgroup")
 ```
 
-The results of the ANOVA model comparing reported symptoms of Anxiety Disorder or Depressive Disorder between race groups indicates that there are significant differences between race groups, the null hypothesis, $H_0$, is rejected.  Non-Hispanic other races and multiple races had the highest values reported for symptoms of Anxiety Disorder or Depressive Disorder, followed by Hispanic or Latino which was followed by, by not significantly different than, Non-Hispanic black. The next highest rates were in Non-Hispanic white, then Non-Hispanic Asian. All differences between race groups were significant aside from the one mentioned. In order to better interpret this outcome more information is needed on the racial make up behind the Non-Hispanic other races and multiple races group. Overall the results seen here are consistent with the current literature on this topic as well as  with our initial hypothesis which stated that non white groups will have the greatest frequency of symptoms (Bui et al., 2020, p. 262). 
+The results of the ANOVA model comparing reported symptoms of Anxiety Disorder or Depressive Disorder between race groups indicates that there are significant differences between race groups, the null hypothesis, $H_0$, is rejected.  Non-Hispanic other races and multiple races had the highest values reported for symptoms of Anxiety Disorder or Depressive Disorder, followed by Hispanic or Latino which was followed by, by not significantly different than, Non-Hispanic black. The next highest rates were in Non-Hispanic white, then Non-Hispanic Asian. All differences between race groups were significant aside from the one mentioned. In order to better interpret this outcome more information is needed on the racial make up behind the Non-Hispanic other races and multiple races group. Overall the results seen here are consistent with the current literature on this topic as well as  with our initial hypothesis which stated that non white groups will have the greatest frequency of symptoms [(Bui et al., 2020)](https://doi.org/10.1093/geront/gnaa217). 
 
 The null hypothesis for the age group model states that, $H_0 : \alpha_1 = \alpha_2 = \alpha_3 = \alpha_4 = \alpha_5 = \alpha_6 = \alpha_7 = 0$, the alternative hypothesis states that $H_a$ : not all $\alpha$s are zero.
 
 ```{r}
-covid_US
-
 #subsetting the CDC anxiety data to include only the measures for anxiety or depressive disorder (combined) grouped by age 
-indicators
 indicators_age = subset(indicators, Indicator == "Symptoms of Anxiety Disorder or Depressive Disorder" & 
                          Group == "By Age" )
-indicators_age
 indicators_age.narm <- indicators_age %>% filter(!is.na(Value))
-indicators_age.narm
 ```
 
 ```{r}
@@ -442,15 +441,20 @@ summary(anova_age)
 emmeans(anova_age, pairwise ~ "Subgroup")
 ```
 
-The results of the ANOVA model comparing reported symptoms of Anxiety Disorder or Depressive Disorder between age groups indicates that there are significant difference between all age groups, the null hypothesis, $H_0$, is rejected. Age group 18-29 years had the highest reported values for symptoms of Anxiety Disorder or Depressive Disorder followed by 30-39 years which was followed by 40-49 years. The four age groups following (50-59 years, 60-69 years, 70-79 years, and 80 years and above) had reported symptoms of Anxiety Disorder or Depressive Disorder that decreased according to increasing age. The analysis is consistent with research that shows that younger adults are more vulnerable to symptoms of anxiety and depression than older adults (Abbott, 2020, p. 194; Delmastro & Zamariola, 2020, p. 8). This result is also consistent with our initial hypothesis which stated that young age groups will have the greatest frequency of symptoms, however, this result is not consistent with our initial hypothesis in that older adults may also be more vulnerable to symptoms of anxiety and depression. 
+The results of the ANOVA model comparing reported symptoms of Anxiety Disorder or Depressive Disorder between age groups indicates that there are significant difference between all age groups, the null hypothesis, $H_0$, is rejected. Age group 18-29 years had the highest reported values for symptoms of Anxiety Disorder or Depressive Disorder followed by 30-39 years which was followed by 40-49 years. The four age groups following (50-59 years, 60-69 years, 70-79 years, and 80 years and above) had reported symptoms of Anxiety Disorder or Depressive Disorder that decreased according to increasing age. The analysis is consistent with research that shows that younger adults are more vulnerable to symptoms of anxiety and depression than older adults ([Abbott, 2020](https://doi.org/10.1038/d41586-021-00175-z); [Delmastro & Zamariola, 2020](https://doi.org/10.1038/s41598-020-79850-6)). This result is also consistent with our initial hypothesis which stated that young age groups will have the greatest frequency of symptoms, however, this result is not consistent with our initial hypothesis in that older adults may also be more vulnerable to symptoms of anxiety and depression. 
 
 
 # Sensitivity Analysis
 
+### Linear Model
 For our linear model we want to check the assumption of the linear regression model including:
+
 * Linear Relationship
+
 * Homoscedasticity
+
 * Independence
+
 * Normality 
 
 ```{r}
@@ -492,6 +496,8 @@ The Scale-Location plot, similar to the residual plot, wants a fitted line as ho
 ```
 
 In the Residuals vs leverage plot with Cook's distance, we see that there are no points that pass the Cook's distance line. Since no points are outside the line our model assumptions hold.
+
+### ANOVA Models
 
 For the ANOVA models used in the report, we want to check for the following indicators that the assumptions do not hold.
 
