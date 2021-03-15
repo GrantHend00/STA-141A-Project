@@ -117,7 +117,7 @@ usmap::plot_usmap(data=indicators.state.means, values="Value") +
   scale_fill_continuous(low = "yellow", high = "blue", name = "Anxiety or Depression Percentage")
 ```
 
-In the first figure, the racial groups with the lowest survey responses indicating Anxiety or Depression, by almost 10%, are Non-Hispanic white and Non-Hispanic Asian. In the second figure, female respondents indicated anxiety or depression symptoms greater than 10% more male respondents. The third figure shows a heat map of the United States where more yellow coloring represents low percentages of responses indicating anxiety or depression and more blue colors represent higher percentages of responses. It appears the northern-middle part of the country has lowest percentages of responses indicating anxiety or depression, by almost 10%.
+In the first figure, the racial groups with the lowest survey responses indicating Anxiety or Depression, by almost 10%, are Non-Hispanic white and Non-Hispanic Asian. In an analysis based on the sex, female respondents indicated anxiety or depression symptoms approximately 10% more than male respondents. The second figure shows a heat map of the United States where more yellow coloring represents low percentages of responses indicating anxiety or depression and more blue colors represent higher percentages of responses. It appears the northern-middle part of the country has lowest percentages of responses indicating anxiety or depression, by almost 10%.
 
 ```{r}
 # Fill in dates of indicators and GOOGLE
@@ -181,7 +181,6 @@ ggplot(percent.m, aes(Date,value,colour = variable)) +
   theme(text = element_text(size = 12), element_line(size = 0.2))
 ```
 
-Finally, the following two tables present aggregated statistics for each month from the WHO COVID-19 Data.
 
 ```{r}
 covid.US.Months <- data.frame(covid_US) %>% subset(Date_reported >= as.POSIXct("2020-01-01") & Date_reported < as.POSIXct("2021-01-01"),c(Date_reported,New_cases,New_deaths))
@@ -227,7 +226,7 @@ covid.US.Months.stats.deaths <- covid.US.Months %>%
 #   )
 ```
 
-Strangely, the month of May has a day with a negative number of deaths and the maximum number of deaths in a day is exactly 5,000. The first issue is impossible and the second issue is highly unlikely. Further investigation outside this report is warranted by this strange behavior, but for now the first error is assumed to be a correction of an over-count and the second error is assumed to be an estimate of that day's number of deaths due to COVID. Both of these can be considered a part of the noise that naturally exists in the data. 
+Strangely, the month of May has a day with a negative number of deaths, which isn't possible. The maximum number of deaths in a day is exactly 5,000 which is highly unlikely. It is possible that there were mistakes made in the data collection process and these instances were corrections. Further investigation outside this report is warranted by this strange behavior, but for now the first error is assumed to be a correction of an over-count and the second error is assumed to be an estimate of that day's number of deaths due to COVID. Both of these can be considered a part of the noise that naturally exists in the data. 
 
 # Predictive/Inferential Analysis
 
