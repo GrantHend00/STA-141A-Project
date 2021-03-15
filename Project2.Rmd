@@ -155,21 +155,29 @@ names(all.df) <- c("Date","New Cases","New Deaths","Anxiety Google Trends","Depr
 
 To present these several datasets on the same time line, the time frame was restricted to the 2020 calendar year. Since all the datasets except for the WHO COVID-19 cases and deaths are recorded in constant time periods that are greater than a day, they were considered to be constant during their respective sampling period. For example, the Google trends data on Anxiety is recorded every week. The value recorded every week is assigned to every day of that week. This allows for simple visual comparisons as shown below.
 
-```{r fig1, fig.height = 12, fig.width = 12}
+```{r fig1, fig.height = 8, fig.width = 12}
 # Show daily deaths, cases, anxiety|depression, and google trends overtime
-all.df.m <- melt(all.df, "Date")
+all.df.m <- melt(all.df %>% select(1:3), "Date")
 # New_cases,New_deaths,all.Anxiety.fill.anxiety.values,all.Depression.fill.depression.values,all.HPS.fill.values
-options(repr.plot.width = 8, repr.plot.height = 0.75)
+#options(repr.plot.width = 8, repr.plot.height = 0.75)
 ggplot(all.df.m, aes(Date,value,colour = variable)) + 
   geom_point() + 
-  geom_point() + 
-  geom_point() + 
-  geom_point() + 
-  geom_point() + 
   facet_wrap(~ variable, ncol=1,scales = "free_y") +
-  labs(title = "Depression or Anxiety Symptoms", 
-       subtitle = "Average 2020 Household Pulse Survey",
-       y = "Value of respective datasets (in order top to bottom): [Cases] [Deaths] [% trend], [% trend], [% with symptoms]") + 
+  labs(title = "COVID-19 Deaths and Cases", 
+       subtitle = "WHO Data in 2020",
+       y = "") + 
+  theme(text = element_text(size = 12), element_line(size = 0.2))
+
+
+percentages <- data.frame(all.covid$Date,all.Anxiety$fill.anxiety.values,all.Depression$fill.depression.values,all.HPS$fill.values)
+names(percentages) <-c("Date","Anxiety Google Trends","Depression Google Trends","Household Pulse Survey")
+percent.m <- melt(percentages,"Date")
+
+ggplot(percent.m, aes(Date,value,colour = variable)) +
+  geom_point() + 
+  labs(title = "HPS Results and Google Trends", 
+       subtitle = "HPS and Google Trends on 'Anxiety' and 'Depression' Topics in 2020",
+       y = "% of responders indicating symptoms and Google's weighted %") + 
   theme(text = element_text(size = 12), element_line(size = 0.2))
 ```
 
