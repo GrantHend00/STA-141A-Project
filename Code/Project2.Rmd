@@ -447,7 +447,7 @@ The results of the ANOVA model comparing reported symptoms of Anxiety Disorder o
 
 # Sensitivity Analysis
 
-For our model we want to check the assumption of the linear regression model including:
+For our linear model we want to check the assumption of the linear regression model including:
 * Linear Relationship
 * Homoscedasticity
 * Independence
@@ -492,6 +492,69 @@ The Scale-Location plot, similar to the residual plot, wants a fitted line as ho
 ```
 
 In the Residuals vs leverage plot with Cook's distance, we see that there are no points that pass the Cook's distance line. Since no points are outside the line our model assumptions hold.
+
+For the ANOVA models used in the report, we want to check for the following indicators that the assumptions do not hold.
+
+* Outliers
+* Unequal variance in the error terms
+* THe error terms not being distributed normally
+* Error terms are correlated
+
+To check for any of these, we will look at the same plots as we did for the linear model.
+
+```{r}
+  plot(anova_race, which = 1)
+```
+
+For the race ANOVA model, we see that the residuals are evenly and seemingly randomly distributed on either side of the regression line. Nothing concerning here.
+
+```{r}
+  plot(anova_race, which = 2)
+```
+
+The normal Q-Q plot does contain some tailing at either end of the sample which is mildly concerning. However, this tailing is not significant enough to conclude that our model assumption of normally distributed error terms do not hold.
+
+```{r}
+  plot(anova_race, which = 3)
+```
+
+Similar to the first residual plot with the standardized residuals, applying the square root function to the residuals does not show anything concerning.
+
+```{r}
+  plot(anova_race, which = 4)
+```
+
+While the Cook's distance plot, upon first glance, shows a couple potential influential points, a quick look at the Y-Axis shows that none of these values are disturbingly high.
+
+Overall, the ANOVA race model's assumption appear to hold up well. The error terms appear to be independent and normally distributed. No major outliers appear to exist and the variance of error terms look equal.
+
+Next, we will look at the plots for the ANOVA age model to help determine if our model assumptions hold.
+
+```{r}
+  plot(anova_age, which = 1)
+```
+
+Our residual vs fitted plot shows again a nearly flat line which indicates that the error terms are independent and randomly distributed.
+
+```{r}
+  plot(anova_age, which = 2)
+```
+
+The Normal Q-Q plot shows some tailing on either side but nothing alarming. The assumption that the error terms are normally distributed appears to hold.
+
+```{r}
+  plot(anova_age, which = 3)
+```
+
+After standardizing the residuals, the plot's line looks less flat than the unstandardized residuals but overall nothing concerning. 
+
+```{r}
+  plot(anova_age, which = 4)
+```
+
+The Cook's distance plot also shows, with a maximum of approimately 0.04, that no points are overly influential. 
+
+To summarize the sensitivity analysis suggestion, our assumptions for the linear model 
 
 ### Insights and Suggestions for Future Analysis
 
