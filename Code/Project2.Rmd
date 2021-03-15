@@ -554,7 +554,7 @@ After standardizing the residuals, the plot's line looks less flat than the unst
 
 The Cook's distance plot also shows, with a maximum of approimately 0.04, that no points are overly influential. 
 
-To summarize the sensitivity analysis suggestion, our assumptions for the linear model 
+To summarize the sensitivity analysis suggestion, our assumptions for both the linear model and the two ANOVA models appear to hold and nothing majorly concerning appears that would disqualify the results from the three models.
 
 ### Insights and Suggestions for Future Analysis
 
